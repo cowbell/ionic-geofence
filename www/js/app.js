@@ -24,15 +24,31 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
         $urlRouterProvider.otherwise('/geofences');
     })
-    .run(function($ionicPlatform, $log, $rootScope) {
+    .run(function($window, $state, $ionicPlatform, $log, $rootScope) {
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
-            if (window.cordova && window.cordova.plugins.Keyboard) {
+            if ($window.cordova && $window.cordova.plugins.Keyboard) {
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
             }
-            if (window.StatusBar) {
+            if ($window.StatusBar) {
                 StatusBar.styleDefault();
+            }
+            if ($window.plugins && $window.plugins.webintent) {
+                $window.plugins.webintent.getExtra("geofence.notification.data",
+                    function(geofenceJson) {
+                        if (geofenceJson) {
+                            var geofence = angular.fromJson(geofenceJson);
+                            $log.log('geofence.notification.data', geofence);
+                            $state.go('geofence', {
+                                geofenceId: geofence.id
+                            });
+                        }
+                    }, function() {
+                        $log.log('no extra geofence.notification.data supplied');
+                        // There was no extra supplied.
+                    }
+                );
             }
         });
 

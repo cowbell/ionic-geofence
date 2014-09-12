@@ -18,10 +18,10 @@ angular.module('ionic-geofence')
                         notification: {
                         	title: 'Ionic geofence example',
                         	text: '',
-                        	openAppOnClick: true,
-                            data: geofenceService.createdGeofenceDraft
+                        	openAppOnClick: true
                         }
                     };
+                    geofenceService.createdGeofenceDraft.notification.data = angular.copy(geofenceService.createdGeofenceDraft);
                     $state.go('geofence', {
                         geofenceId: geofenceService.createdGeofenceDraft.id
                     });
