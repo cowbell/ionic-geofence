@@ -59,6 +59,17 @@ angular.module('ionic-geofence')
                 this._geofences.splice(this._geofences.indexOf(geofence), 1);
                 $window.geofence.remove(geofence.id);
                 localStorage['geofences'] = angular.toJson(this._geofences);
+            },
+            getNextNotificationId: function(){
+                var max = 0;
+                this._geofences.forEach(function(gf){
+                    if(gf.notification && gf.notification.id){
+                        if(gf.notification.id > max){
+                            max = gf.notification.id;
+                        }
+                    }
+                });
+                return max+1;
             }
         };
         geofenceService.loadFromLocalStorage();

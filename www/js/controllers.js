@@ -22,6 +22,7 @@ angular.module('ionic-geofence')
                         radius: 1000,
                         transitionType: 1,
                         notification: {
+                            id: geofenceService.getNextNotificationId(),
                         	title: 'Ionic geofence example',
                         	text: '',
                         	openAppOnClick: true
