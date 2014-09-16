@@ -15,7 +15,7 @@
             <a class="button" ng-class=" isWhenGettingCloser() ? 'button-positive' : 'button-light'" ng-click="chooseWhenIgetCloser()">When I get close</a>
             <a class="button" ng-class=" isWhenGettingCloser() ? 'button-light' : 'button-positive'" ng-click="chooseWhenIamLeaving()">When I go away</a>
         </div>
-        <div class="range">
+        <div class="range" data-tap-disabled="true">
           on
           <input type="range" name="volume" min="30" max="5000" ng-model="paths.circle.radius">
           {{ paths.circle.radius }}m 
