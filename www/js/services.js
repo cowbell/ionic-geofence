@@ -1,15 +1,24 @@
 angular.module('ionic-geofence')
-    .factory('geofenceService', function($window, $log) {
+    .factory('geofenceService', function($window, $q, $log, $ionicLoading) {
         
         $window.geofence = $window.geofence || {
             addOrUpdate: function(fences) {
+                var deffered = $q.defer();
                 $log.log('Mocked geofence plugin addOrUpdate', fences);
+                deffered.resolve();
+                return deffered.promise;
             },
             remove: function(ids) {
+                var deffered = $q.defer();
             	$log.log('Mocked geofence plugin remove', ids);
+                deffered.resolve();
+                return deffered.promise;
             },
             removeAll: function(){
+                var deffered = $q.defer();
             	$log.log('Mocked geofence plugin removeAll');
+                deffered.resolve();
+                return deffered.promise;
             }
         };
 
@@ -56,14 +65,36 @@ angular.module('ionic-geofence')
                 return undefined;
             },
             remove: function(geofence) {
-                this._geofences.splice(this._geofences.indexOf(geofence), 1);
-                $window.geofence.remove(geofence.id);
-                localStorage['geofences'] = angular.toJson(this._geofences);
+                var self = this;
+                $ionicLoading.show({
+                    template: 'Removing geofence...'
+                });
+                $window.geofence.remove(geofence.id).then(function(){
+                    $ionicLoading.hide();
+                    self._geofences.splice(self._geofences.indexOf(geofence), 1);    
+                    localStorage['geofences'] = angular.toJson(self._geofences);    
+                },function(reason){
+                    $ionicLoading.show({
+                        template: 'Error',
+                        duration: 1500
+                    });
+                });
             },
             removeAll: function(){
-                this._geofences.length = 0;
-                $window.geofence.removeAll();
-                localStorage['geofences'] = angular.toJson(this._geofences);
+                var self = this;
+                $ionicLoading.show({
+                    template: 'Removing all geofences...'
+                });
+                $window.geofence.removeAll().then(function(){
+                    $ionicLoading.hide();
+                    self._geofences.length = 0;
+                    localStorage['geofences'] = angular.toJson(self._geofences);
+                },function(reason){
+                    $ionicLoading.show({
+                        template: 'Error',
+                        duration: 1500
+                    });
+                });
             },
             getNextNotificationId: function(){
                 var max = 0;
