@@ -20,7 +20,7 @@
           <input type="range" name="volume" min="30" max="5000" ng-model="paths.circle.radius">
           {{ paths.circle.radius }}m 
         </div>
-        <div style="width: 100%; position: absolute; top: 140px; bottom: 0px;">
+        <div style="width: 100%; position: absolute; top: 140px; bottom: 0px;" data-tap-disabled="true">
             <leaflet resizeable markers="markers" paths="paths" center="center" width="100%" height="100%" event-broadcast="events"></leaflet>
         </div>
     </ion-content>
