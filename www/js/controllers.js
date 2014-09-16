@@ -1,14 +1,20 @@
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function($scope, $state, geolocationService, geofenceService, $ionicLoading) {
+    .controller('GeofencesCtrl', function($scope, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading) {
         $scope.geofences = geofenceService.getAll();
 
         $scope.createNew = function() {
+            $log.log('Obtaining current location...');
             $ionicLoading.show({
                 template: 'Obtaining current location...'
             });
             geolocationService.getCurrentPosition()
                 .then(function(position) {
+                    $log.log('Current location found');
                     $ionicLoading.hide();
+                    //workaround ionic loading race condition
+                    $timeout(function() {
+                        $ionicLoading.hide();    
+                    }, 100);
                     geofenceService.createdGeofenceDraft = {
                         id: UUIDjs.create().toString(),
                         latitude: position.coords.latitude,
@@ -27,6 +33,7 @@ angular.module('ionic-geofence')
                     });
                 })
                 .catch(function(){
+                    $log.log('Cannot obtain current locaiton');
               		$ionicLoading.show({
               			template: 'Cannot obtain current location',
               			duration: 1500

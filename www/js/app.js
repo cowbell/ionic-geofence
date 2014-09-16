@@ -16,8 +16,16 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                 templateUrl: "views/geofence.html",
                 controller: "GeofenceCtrl",
                 resolve: {
-                    geofence: function($stateParams, geofenceService) {
-                        return geofenceService.findById($stateParams.geofenceId);
+                    geofence: function($stateParams, geofenceService, $q) {
+                        var def = $q.defer();
+                        var gf = geofenceService.findById($stateParams.geofenceId);
+                        if(gf){
+                            def.resolve(gf);
+                        }
+                        else{
+                            def.reject();
+                        }
+                        return def.promise;
                     }
                 }
             });
@@ -54,5 +62,6 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
+            $state.go('geofences');
         });
     })

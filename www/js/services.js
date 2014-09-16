@@ -53,7 +53,7 @@ angular.module('ionic-geofence')
                 if (geoFences.length > 0) {
                     return geoFences[0];
                 }
-                return null;
+                return undefined;
             },
             remove: function(geofence) {
                 this._geofences.splice(this._geofences.indexOf(geofence), 1);
