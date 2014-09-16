@@ -1,5 +1,5 @@
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function($scope, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading) {
+    .controller('GeofencesCtrl', function($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
         $scope.geofences = geofenceService.getAll();
 
         $scope.createNew = function() {
@@ -50,6 +50,19 @@ angular.module('ionic-geofence')
 
         $scope.removeGeofence = function(geofence) {
             geofenceService.remove(geofence);
+        }
+
+        $scope.more = function(){
+            // Show the action sheet
+           $ionicActionSheet.show({
+             destructiveText: 'Delete all geofences',
+             titleText: 'More options',
+             cancelText: 'Cancel',
+             destructiveButtonClicked: function(){
+                geofenceService.removeAll();
+                return true;
+             }
+           });
         }
     })
 

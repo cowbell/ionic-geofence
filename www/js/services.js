@@ -60,6 +60,11 @@ angular.module('ionic-geofence')
                 $window.geofence.remove(geofence.id);
                 localStorage['geofences'] = angular.toJson(this._geofences);
             },
+            removeAll: function(){
+                this._geofences.length = 0;
+                $window.geofence.removeAll();
+                localStorage['geofences'] = angular.toJson(this._geofences);
+            },
             getNextNotificationId: function(){
                 var max = 0;
                 this._geofences.forEach(function(gf){
