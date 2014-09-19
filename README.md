@@ -6,19 +6,17 @@ Sample project using [cordova geofence plugin](https://github.com/tsubik/cordova
 
 ##Installation
 
-Using [cordova CLI](https://github.com/apache/cordova-cli)
-
-```
-cordova plugin add org.apache.cordova.geolocation
-cordova plugin add https://github.com/tsubik/cordova-plugin-geofence
-cordova plugin add https://github.com/Initsogar/cordova-webintent
-```
-
 On android
 
 ```
 ionic platform add android
 ionic run android
+```
+
+Testing in browser
+
+```
+ionic serve
 ```
 
 ##Platforms
