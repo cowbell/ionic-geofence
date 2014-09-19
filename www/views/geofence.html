@@ -9,7 +9,7 @@
     </ion-nav-bar>
     <ion-content scroll="false">
         <label class="item item-input">
-            <input type="text" placeholder="Enter notification text" ng-model="geofence.notification.text">  
+            <input type="text" placeholder="Enter notification text" ng-model="geofence.notification.text" hide-keyboard-on-enter>  
         </label>
         <div class="button-bar">
             <a class="button" ng-class=" isWhenGettingCloser() ? 'button-positive' : 'button-light'" ng-click="chooseWhenIgetCloser()">When I get close</a>
