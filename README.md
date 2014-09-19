@@ -6,17 +6,23 @@ Sample project using [cordova geofence plugin](https://github.com/tsubik/cordova
 
 ##Installation
 
-On android
+If you do not have cordova or ionic
+
+```
+npm install -g cordova ionic
+```
+
+For testing in browser
+
+```
+ionic serve
+```
+
+For android
 
 ```
 ionic platform add android
 ionic run android
-```
-
-Testing in browser
-
-```
-ionic serve
 ```
 
 ##Platforms
