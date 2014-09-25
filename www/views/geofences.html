@@ -1,15 +1,16 @@
 <ion-view>
-    <ion-header-bar class="bar-positive">
+    <ion-header-bar class="bar-positive" align-title="left">
         <h1 class="title">Ionic geofence example</h1>
         <div class="buttons pull-right">
             <button class="button pull-right button-icon icon ion-plus" ng-click="createNew()"></button>
+            <button class="button pull-right button-icon icon ion-more" ng-click="more()"></button>
         </div>
     </ion-header-bar>
     <ion-content>
         <ion-list can-swipe="true">
             <ion-item ng-click="editGeofence(geofence)" class="item item-icon-right" ng-repeat="geofence in geofences">
                 <p>{{geofence.notification.text}}</p>
-                <i class="icon ion-trash-b" ng-click="removeGeofence(geofence)"></i>
+                <i class="icon ion-trash-b" ion-stop-event="click" ng-click="removeGeofence(geofence)"></i>
             </ion-item>
         </ion-list>
         <div class="card" ng-if="geofences.length == 0">

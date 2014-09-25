@@ -1,5 +1,5 @@
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function($scope, $log, $state, geolocationService, geofenceService, $ionicLoading) {
+    .controller('GeofencesCtrl', function($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
         $scope.geofences = geofenceService.getAll();
 
         $scope.createNew = function() {
@@ -9,7 +9,12 @@ angular.module('ionic-geofence')
             });
             geolocationService.getCurrentPosition()
                 .then(function(position) {
+                    $log.log('Current location found');
                     $ionicLoading.hide();
+                    //workaround ionic loading race condition
+                    $timeout(function() {
+                        $ionicLoading.hide();    
+                    }, 100);
                     geofenceService.createdGeofenceDraft = {
                         id: UUIDjs.create().toString(),
                         latitude: position.coords.latitude,
@@ -17,6 +22,7 @@ angular.module('ionic-geofence')
                         radius: 1000,
                         transitionType: 1,
                         notification: {
+                            id: geofenceService.getNextNotificationId(),
                         	title: 'Ionic geofence example',
                         	text: '',
                         	openAppOnClick: true
@@ -28,6 +34,7 @@ angular.module('ionic-geofence')
                     });
                 })
                 .catch(function(){
+                    $log.log('Cannot obtain current locaiton');
               		$ionicLoading.show({
               			template: 'Cannot obtain current location',
               			duration: 1500
@@ -43,6 +50,19 @@ angular.module('ionic-geofence')
 
         $scope.removeGeofence = function(geofence) {
             geofenceService.remove(geofence);
+        }
+
+        $scope.more = function(){
+            // Show the action sheet
+           $ionicActionSheet.show({
+             destructiveText: 'Delete all geofences',
+             titleText: 'More options',
+             cancelText: 'Cancel',
+             destructiveButtonClicked: function(){
+                geofenceService.removeAll();
+                return true;
+             }
+           });
         }
     })
 
