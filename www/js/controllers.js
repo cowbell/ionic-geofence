@@ -1,8 +1,9 @@
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function($scope, $state, geolocationService, geofenceService, $ionicLoading) {
+    .controller('GeofencesCtrl', function($scope, $log, $state, geolocationService, geofenceService, $ionicLoading) {
         $scope.geofences = geofenceService.getAll();
 
         $scope.createNew = function() {
+            $log.log('Obtaining current location...');
             $ionicLoading.show({
                 template: 'Obtaining current location...'
             });

@@ -24,8 +24,9 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
         $urlRouterProvider.otherwise('/geofences');
     })
-    .run(function($window, $state, $ionicPlatform, $log, $rootScope) {
+    .run(function($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope) {
         $ionicPlatform.ready(function() {
+            $log.log('ionicPlatform ready');
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
             if ($window.cordova && $window.cordova.plugins.Keyboard) {
@@ -52,6 +53,12 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
             }
         });
 
+        //ionic loading fix - sometimes when changing state loading is not hiding
+        $rootScope.$on('$stateChangeStart',
+            function(event, toState, toParams, fromState, fromParams){
+            $ionicLoading.hide();
+            $document[0].body.classList.remove('loading-active');
+        });
         $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
             $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
         });
