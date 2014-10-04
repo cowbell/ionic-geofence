@@ -111,28 +111,23 @@ angular.module('ionic-geofence')
         geofenceService.loadFromLocalStorage();
         return geofenceService;
     })
-    .factory('geolocationService', function($q) {
+    .factory('geolocationService', function($q, $timeout) {
         var currentPositionCache;
         return {
             getCurrentPosition: function() {
-                var deffered = $q.defer();
-                var success = function(position) {
-                    deffered.resolve(currentPositionCache = position);
-                };
-                var error = function() {
-                    deffered.reject();
-                };
-
-                navigator.geolocation.getCurrentPosition(success, error || function() {})
-                navigator.geolocation.watchPosition(success, error || function() {}, {
-                    enableHighAccuracy: true,
-                    maximumAge: 3000,
-                    timeout: 60000
-                })
-                if (currentPositionCache) setTimeout(function() {
-                    success(currentPositionCache)
-                }, 0);
-                return deffered.promise;
+                if(!currentPositionCache){
+                    var deffered = $q.defer();
+                    navigator.geolocation.getCurrentPosition(function(position){
+                        deffered.resolve(currentPositionCache = position);
+                        $timout(function(){
+                            currentPositionCache = undefined;
+                        }, 10000);    
+                    }, function(){
+                        deffered.reject();
+                    })
+                    return deffered.promise;
+                }
+                return $q.when(currentPositionCache);
             }
         };
     });
