@@ -43,6 +43,9 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
             if ($window.StatusBar) {
                 StatusBar.styleDefault();
             }
+            if ($window.geofence) {
+                $window.geofence.initialize();
+            }
             if ($window.plugins && $window.plugins.webintent) {
                 $log.log('WebIntent plugin found');
                 $window.plugins.webintent.getExtra("geofence.notification.data",
