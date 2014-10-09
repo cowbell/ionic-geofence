@@ -1,22 +1,22 @@
 angular.module('ionic-geofence')
-    .factory('geofenceService', function($window, $q, $log, $ionicLoading) {
-        
+    .factory('geofenceService', function ($window, $q, $log, $ionicLoading) {
+
         $window.geofence = $window.geofence || {
-            addOrUpdate: function(fences) {
+            addOrUpdate: function (fences) {
                 var deffered = $q.defer();
                 $log.log('Mocked geofence plugin addOrUpdate', fences);
                 deffered.resolve();
                 return deffered.promise;
             },
-            remove: function(ids) {
+            remove: function (ids) {
                 var deffered = $q.defer();
-            	$log.log('Mocked geofence plugin remove', ids);
+                $log.log('Mocked geofence plugin remove', ids);
                 deffered.resolve();
                 return deffered.promise;
             },
-            removeAll: function(){
+            removeAll: function () {
                 var deffered = $q.defer();
-            	$log.log('Mocked geofence plugin removeAll');
+                $log.log('Mocked geofence plugin removeAll');
                 deffered.resolve();
                 return deffered.promise;
             }
@@ -25,23 +25,23 @@ angular.module('ionic-geofence')
         var geofenceService = {
             _geofences: [],
             createdGeofenceDraft: null,
-            loadFromLocalStorage: function(){
-            	var result = localStorage['geofences'];
-		        var geofences = [];
-		        if (result) {
-		            try {
-		                geofences = angular.fromJson(result);
-		            } catch (ex) {
+            loadFromLocalStorage: function () {
+                var result = localStorage['geofences'];
+                var geofences = [];
+                if (result) {
+                    try {
+                        geofences = angular.fromJson(result);
+                    } catch (ex) {
 
-		            }
-		        }
-		        this._geofences = geofences;
+                    }
+                }
+                this._geofences = geofences;
             },
-            getAll: function() {
+            getAll: function () {
                 this.loadFromLocalStorage();
                 return this._geofences;
             },
-            addOrUpdate: function(geofence) {
+            addOrUpdate: function (geofence) {
                 if ((this.createdGeofenceDraft && this.createdGeofenceDraft == geofence) ||
                     !this.findById(geofence.id)) {
                     this._geofences.push(geofence);
@@ -52,11 +52,11 @@ angular.module('ionic-geofence')
                     this.createdGeofenceDraft = null;
                 }
             },
-            findById: function(id) {
+            findById: function (id) {
                 if (this.createdGeofenceDraft && this.createdGeofenceDraft.id === id) {
                     return this.createdGeofenceDraft;
                 }
-                var geoFences = this._geofences.filter(function(g) {
+                var geoFences = this._geofences.filter(function (g) {
                     return g.id === id
                 });
                 if (geoFences.length > 0) {
@@ -64,65 +64,65 @@ angular.module('ionic-geofence')
                 }
                 return undefined;
             },
-            remove: function(geofence) {
+            remove: function (geofence) {
                 var self = this;
                 $ionicLoading.show({
                     template: 'Removing geofence...'
                 });
-                $window.geofence.remove(geofence.id).then(function(){
+                $window.geofence.remove(geofence.id).then(function () {
                     $ionicLoading.hide();
-                    self._geofences.splice(self._geofences.indexOf(geofence), 1);    
-                    localStorage['geofences'] = angular.toJson(self._geofences);    
-                },function(reason){
+                    self._geofences.splice(self._geofences.indexOf(geofence), 1);
+                    localStorage['geofences'] = angular.toJson(self._geofences);
+                }, function (reason) {
                     $ionicLoading.show({
                         template: 'Error',
                         duration: 1500
                     });
                 });
             },
-            removeAll: function(){
+            removeAll: function () {
                 var self = this;
                 $ionicLoading.show({
                     template: 'Removing all geofences...'
                 });
-                $window.geofence.removeAll().then(function(){
+                $window.geofence.removeAll().then(function () {
                     $ionicLoading.hide();
                     self._geofences.length = 0;
                     localStorage['geofences'] = angular.toJson(self._geofences);
-                },function(reason){
+                }, function (reason) {
                     $ionicLoading.show({
                         template: 'Error',
                         duration: 1500
                     });
                 });
             },
-            getNextNotificationId: function(){
+            getNextNotificationId: function () {
                 var max = 0;
-                this._geofences.forEach(function(gf){
-                    if(gf.notification && gf.notification.id){
-                        if(gf.notification.id > max){
+                this._geofences.forEach(function (gf) {
+                    if (gf.notification && gf.notification.id) {
+                        if (gf.notification.id > max) {
                             max = gf.notification.id;
                         }
                     }
                 });
-                return max+1;
+                return max + 1;
             }
         };
         geofenceService.loadFromLocalStorage();
         return geofenceService;
     })
-    .factory('geolocationService', function($q, $timeout) {
+    .factory('geolocationService', function ($q, $timeout) {
         var currentPositionCache;
         return {
-            getCurrentPosition: function() {
-                if(!currentPositionCache){
+            getCurrentPosition: function () {
+                if (!currentPositionCache) {
                     var deffered = $q.defer();
-                    navigator.geolocation.getCurrentPosition(function(position){
+                    navigator.geolocation.getCurrentPosition(function (position) {
                         deffered.resolve(currentPositionCache = position);
-                        $timout(function(){
+                        $timeout(function () {
                             currentPositionCache = undefined;
-                        }, 10000);    
-                    }, function(){
+                        }, 10000);
+                    }, function () {
                         deffered.reject();
                     })
                     return deffered.promise;
