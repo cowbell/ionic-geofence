@@ -1,19 +1,27 @@
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
-        $scope.geofences = geofenceService.getAll();
+    .controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
+        $ionicLoading.show({
+            template: 'Getting geofences from device...'
+        });
 
-        $scope.createNew = function() {
+        $scope.geofences = [];
+        geofenceService.getAll().then(function (geofences) {
+            $scope.geofences = geofences;
+            $ionicLoading.hide();
+        });
+
+        $scope.createNew = function () {
             $log.log('Obtaining current location...');
             $ionicLoading.show({
                 template: 'Obtaining current location...'
             });
             geolocationService.getCurrentPosition()
-                .then(function(position) {
+                .then(function (position) {
                     $log.log('Current location found');
                     $ionicLoading.hide();
                     //workaround ionic loading race condition
-                    $timeout(function() {
-                        $ionicLoading.hide();    
+                    $timeout(function () {
+                        $ionicLoading.hide();
                     }, 100);
                     geofenceService.createdGeofenceDraft = {
                         id: UUIDjs.create().toString(),
@@ -23,9 +31,9 @@ angular.module('ionic-geofence')
                         transitionType: 1,
                         notification: {
                             id: geofenceService.getNextNotificationId(),
-                        	title: 'Ionic geofence example',
-                        	text: '',
-                        	openAppOnClick: true
+                            title: 'Ionic geofence example',
+                            text: '',
+                            openAppOnClick: true
                         }
                     };
                     geofenceService.createdGeofenceDraft.notification.data = angular.copy(geofenceService.createdGeofenceDraft);
@@ -33,40 +41,40 @@ angular.module('ionic-geofence')
                         geofenceId: geofenceService.createdGeofenceDraft.id
                     });
                 })
-                .catch(function(){
+                .catch(function () {
                     $log.log('Cannot obtain current locaiton');
-              		$ionicLoading.show({
-              			template: 'Cannot obtain current location',
-              			duration: 1500
-              		});
+                    $ionicLoading.show({
+                        template: 'Cannot obtain current location',
+                        duration: 1500
+                    });
                 });
         }
 
-        $scope.editGeofence = function(geofence) {
+        $scope.editGeofence = function (geofence) {
             $state.go('geofence', {
                 geofenceId: geofence.id
             });
         }
 
-        $scope.removeGeofence = function(geofence) {
+        $scope.removeGeofence = function (geofence) {
             geofenceService.remove(geofence);
         }
 
-        $scope.more = function(){
+        $scope.more = function () {
             // Show the action sheet
-           $ionicActionSheet.show({
-             destructiveText: 'Delete all geofences',
-             titleText: 'More options',
-             cancelText: 'Cancel',
-             destructiveButtonClicked: function(){
-                geofenceService.removeAll();
-                return true;
-             }
-           });
+            $ionicActionSheet.show({
+                destructiveText: 'Delete all geofences',
+                titleText: 'More options',
+                cancelText: 'Cancel',
+                destructiveButtonClicked: function () {
+                    geofenceService.removeAll();
+                    return true;
+                }
+            });
         }
     })
 
-.controller('GeofenceCtrl', function($scope, $state, geofence, geofenceService) {
+.controller('GeofenceCtrl', function ($scope, $state, geofence, geofenceService) {
     $scope.geofence = geofence;
 
     $scope.center = {
@@ -92,22 +100,22 @@ angular.module('ionic-geofence')
         }
     };
 
-    $scope.isWhenGettingCloser = function() {
+    $scope.isWhenGettingCloser = function () {
         return $scope.geofence.transitionType === 1;
     }
 
-    $scope.chooseWhenIgetCloser = function() {
+    $scope.chooseWhenIgetCloser = function () {
         $scope.geofence.transitionType = 1;
     }
 
-    $scope.chooseWhenIamLeaving = function() {
+    $scope.chooseWhenIamLeaving = function () {
         $scope.geofence.transitionType = 0;
     }
 
-    $scope.save = function() {
-    	$scope.geofence.radius = parseInt($scope.paths.circle.radius);
-    	$scope.geofence.latitude = $scope.markers.marker.lat;
-    	$scope.geofence.longitude = $scope.markers.marker.lng;
+    $scope.save = function () {
+        $scope.geofence.radius = parseInt($scope.paths.circle.radius);
+        $scope.geofence.latitude = $scope.markers.marker.lat;
+        $scope.geofence.longitude = $scope.markers.marker.lng;
         geofenceService.addOrUpdate($scope.geofence);
         $state.go('geofences');
     }

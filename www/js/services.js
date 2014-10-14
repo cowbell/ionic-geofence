@@ -1,5 +1,5 @@
 angular.module('ionic-geofence')
-    .factory('geofenceService', function ($window, $q, $log, $ionicLoading) {
+    .factory('geofenceService', function ($rootScope, $window, $q, $log, $ionicLoading, toaster) {
 
         $window.geofence = $window.geofence || {
             addOrUpdate: function (fences) {
@@ -19,6 +19,11 @@ angular.module('ionic-geofence')
                 $log.log('Mocked geofence plugin removeAll');
                 deffered.resolve();
                 return deffered.promise;
+            },
+            recieveTransition: function (obj) {
+                $rootScope.$apply(function () {
+                    toaster.pop('success', 'title', 'text');
+                });
             }
         };
 
@@ -36,10 +41,23 @@ angular.module('ionic-geofence')
                     }
                 }
                 this._geofences = geofences;
+                return $q.when(this._geofences);
+            },
+            loadFromDevice: function () {
+                var self = this;
+                if($window.geofence && $window.geofence.getWatched) {
+                    return $window.geofence.getWatched().then(function (geofencesJson) {
+                        self._geofences = angular.fromJson(geofencesJson);
+                        return self._geofences;
+                    });
+                }
+                return this.loadFromLocalStorage();
+            },
+            load: function () {
+                return this.loadFromDevice();
             },
             getAll: function () {
-                this.loadFromLocalStorage();
-                return this._geofences;
+                return this.load();
             },
             addOrUpdate: function (geofence) {
                 if ((this.createdGeofenceDraft && this.createdGeofenceDraft == geofence) ||
@@ -108,7 +126,6 @@ angular.module('ionic-geofence')
                 return max + 1;
             }
         };
-        geofenceService.loadFromLocalStorage();
         return geofenceService;
     })
     .factory('geolocationService', function ($q, $timeout) {

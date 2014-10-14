@@ -3,8 +3,8 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
-    .config(function($stateProvider, $urlRouterProvider) {
+angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
+    .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('geofences', {
                 url: "/geofences",
@@ -16,13 +16,12 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                 templateUrl: "views/geofence.html",
                 controller: "GeofenceCtrl",
                 resolve: {
-                    geofence: function($stateParams, geofenceService, $q) {
+                    geofence: function ($stateParams, geofenceService, $q) {
                         var def = $q.defer();
                         var gf = geofenceService.findById($stateParams.geofenceId);
-                        if(gf){
+                        if (gf) {
                             def.resolve(gf);
-                        }
-                        else{
+                        } else {
                             def.reject();
                         }
                         return def.promise;
@@ -32,8 +31,8 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
         $urlRouterProvider.otherwise('/geofences');
     })
-    .run(function($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope) {
-        $ionicPlatform.ready(function() {
+    .run(function ($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope, toaster) {
+        $ionicPlatform.ready(function () {
             $log.log('Ionic ready');
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -45,11 +44,22 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
             }
             if ($window.geofence) {
                 $window.geofence.initialize();
+
+                $window.geofence.recieveTransition = function (geofences) {
+                    $log.log(geofences);
+                    if (geofences) {
+                        $rootScope.$apply(function () {
+                            geofences.forEach(function (geo) {
+                                toaster.pop('success', geo.notification.title, geo.notification.text);
+                            });
+                        });
+                    }
+                };
             }
             if ($window.plugins && $window.plugins.webintent) {
                 $log.log('WebIntent plugin found');
                 $window.plugins.webintent.getExtra("geofence.notification.data",
-                    function(geofenceJson) {
+                    function (geofenceJson) {
                         if (geofenceJson) {
                             var geofence = angular.fromJson(geofenceJson);
                             $log.log('geofence.notification.data', geofence);
@@ -57,7 +67,8 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                                 geofenceId: geofence.id
                             });
                         }
-                    }, function() {
+                    },
+                    function () {
                         $log.log('no extra geofence.notification.data supplied');
                         // There was no extra supplied.
                     }
@@ -67,11 +78,11 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
         //ionic loading fix - sometimes when changing state loading is not hiding
         $rootScope.$on('$stateChangeStart',
-            function(event, toState, toParams, fromState, fromParams){
-            $ionicLoading.hide();
-            $document[0].body.classList.remove('loading-active');
-        });
-        $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
+            function (event, toState, toParams, fromState, fromParams) {
+                $ionicLoading.hide();
+                $document[0].body.classList.remove('loading-active');
+            });
+        $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
             $state.go('geofences');
         });
