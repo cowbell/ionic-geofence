@@ -22,7 +22,7 @@ angular.module('ionic-geofence')
             },
             recieveTransition: function (obj) {
                 $rootScope.$apply(function () {
-                    toaster.pop('success', 'title', 'text');
+                    toaster.pop('info', 'title', 'text');
                 });
             }
         };

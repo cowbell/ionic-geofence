@@ -50,7 +50,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                     if (geofences) {
                         $rootScope.$apply(function () {
                             geofences.forEach(function (geo) {
-                                toaster.pop('success', geo.notification.title, geo.notification.text);
+                                toaster.pop('info', geo.notification.title, geo.notification.text);
                             });
                         });
                     }
