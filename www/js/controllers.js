@@ -48,17 +48,17 @@ angular.module('ionic-geofence')
                         duration: 1500
                     });
                 });
-        }
+        };
 
         $scope.editGeofence = function (geofence) {
             $state.go('geofence', {
                 geofenceId: geofence.id
             });
-        }
+        };
 
         $scope.removeGeofence = function (geofence) {
             geofenceService.remove(geofence);
-        }
+        };
 
         $scope.more = function () {
             // Show the action sheet
@@ -71,7 +71,7 @@ angular.module('ionic-geofence')
                     return true;
                 }
             });
-        }
+        };
     })
 
 .controller('GeofenceCtrl', function ($scope, $state, geofence, geofenceService) {
@@ -93,7 +93,7 @@ angular.module('ionic-geofence')
     };
     $scope.paths = {
         circle: {
-            type: "circle",
+            type: 'circle',
             radius: geofence.radius,
             latlngs: $scope.markers.marker,
             clickable: false
@@ -102,15 +102,15 @@ angular.module('ionic-geofence')
 
     $scope.isWhenGettingCloser = function () {
         return $scope.geofence.transitionType === 1;
-    }
+    };
 
     $scope.chooseWhenIgetCloser = function () {
         $scope.geofence.transitionType = 1;
-    }
+    };
 
     $scope.chooseWhenIamLeaving = function () {
         $scope.geofence.transitionType = 0;
-    }
+    };
 
     $scope.save = function () {
         $scope.geofence.radius = parseInt($scope.paths.circle.radius);
@@ -118,5 +118,5 @@ angular.module('ionic-geofence')
         $scope.geofence.longitude = $scope.markers.marker.lng;
         geofenceService.addOrUpdate($scope.geofence);
         $state.go('geofences');
-    }
-})
+    };
+});

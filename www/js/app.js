@@ -7,14 +7,14 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('geofences', {
-                url: "/geofences",
-                templateUrl: "views/geofences.html",
-                controller: "GeofencesCtrl"
+                url: '/geofences',
+                templateUrl: 'views/geofences.html',
+                controller: 'GeofencesCtrl'
             })
             .state('geofence', {
-                url: "/geofence/:geofenceId",
-                templateUrl: "views/geofence.html",
-                controller: "GeofenceCtrl",
+                url: '/geofence/:geofenceId',
+                templateUrl: 'views/geofence.html',
+                controller: 'GeofenceCtrl',
                 resolve: {
                     geofence: function ($stateParams, geofenceService, $q) {
                         var def = $q.defer();
@@ -45,7 +45,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
             if ($window.geofence) {
                 $window.geofence.initialize();
 
-                $window.geofence.recieveTransition = function (geofences) {
+                $window.geofence.receiveTransition = function (geofences) {
                     $log.log(geofences);
                     if (geofences) {
                         $rootScope.$apply(function () {
@@ -58,7 +58,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
             }
             if ($window.plugins && $window.plugins.webintent) {
                 $log.log('WebIntent plugin found');
-                $window.plugins.webintent.getExtra("geofence.notification.data",
+                $window.plugins.webintent.getExtra('geofence.notification.data',
                     function (geofenceJson) {
                         if (geofenceJson) {
                             var geofence = angular.fromJson(geofenceJson);
@@ -77,8 +77,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
         });
 
         //ionic loading fix - sometimes when changing state loading is not hiding
-        $rootScope.$on('$stateChangeStart',
-            function (event, toState, toParams, fromState, fromParams) {
+        $rootScope.$on('$stateChangeStart', function () {
                 $ionicLoading.hide();
                 $document[0].body.classList.remove('loading-active');
             });
@@ -86,4 +85,4 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
             $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
             $state.go('geofences');
         });
-    })
+    });
