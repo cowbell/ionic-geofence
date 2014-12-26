@@ -7,8 +7,8 @@
 // or the URL
 var pluginlist = [
     "https://github.com/Initsogar/cordova-webintent",
-    "https://github.com/cowbell/cordova-plugin-geofence.git",
-    //"~/dev/js/cordova/plugins/geofence",
+    //"https://github.com/cowbell/cordova-plugin-geofence.git",
+    "~/dev/cordova-plugin-geofence",
     "com.ionic.keyboard",
     "org.apache.cordova.geolocation",
     "org.apache.cordova.console"

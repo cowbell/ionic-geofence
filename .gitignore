@@ -6,3 +6,5 @@ plugins
 out
 .idea
 app/components
+scripts/reload_geoplug.sh
+.DS_Store
