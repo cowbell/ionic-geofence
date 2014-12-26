@@ -17,14 +17,11 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                 controller: 'GeofenceCtrl',
                 resolve: {
                     geofence: function ($stateParams, geofenceService, $q) {
-                        var def = $q.defer();
-                        var gf = geofenceService.findById($stateParams.geofenceId);
-                        if (gf) {
-                            def.resolve(gf);
-                        } else {
-                            def.reject();
+                        var geofence = geofenceService.findById($stateParams.geofenceId);
+                        if (geofence) {
+                            return $q.when(geofence);
                         }
-                        return def.promise;
+                        return $q.reject('Cannot find geofence with id: ' + $stateParams.geofenceId);
                     }
                 }
             });
@@ -76,11 +73,6 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
             }
         });
 
-        //ionic loading fix - sometimes when changing state loading is not hiding
-        $rootScope.$on('$stateChangeStart', function () {
-                $ionicLoading.hide();
-                $document[0].body.classList.remove('loading-active');
-            });
         $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams, error) {
             $log.log('stateChangeError ', error, toState, toParams, fromState, fromParams);
             $state.go('geofences');

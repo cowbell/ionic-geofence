@@ -29,6 +29,7 @@ angular.module('ionic-geofence')
 
         var geofenceService = {
             _geofences: [],
+            _geofencesPromise: null,
             createdGeofenceDraft: null,
             loadFromLocalStorage: function () {
                 var result = localStorage['geofences'];
@@ -43,9 +44,12 @@ angular.module('ionic-geofence')
                 this._geofences = geofences;
                 return $q.when(this._geofences);
             },
+            saveToLocalStorage: function () {
+                localStorage['geofences'] = angular.toJson(this._geofences);
+            },
             loadFromDevice: function () {
                 var self = this;
-                if($window.geofence && $window.geofence.getWatched) {
+                if ($window.geofence && $window.geofence.getWatched) {
                     return $window.geofence.getWatched().then(function (geofencesJson) {
                         self._geofences = angular.fromJson(geofencesJson);
                         return self._geofences;
@@ -53,29 +57,41 @@ angular.module('ionic-geofence')
                 }
                 return this.loadFromLocalStorage();
             },
-            load: function () {
-                return this.loadFromDevice();
-            },
             getAll: function () {
-                return this.load();
+                var self = this;
+                if (!self._geofencesPromise) {
+                    self._geofencesPromise = $q.defer();
+                    self.loadFromDevice().then(function (geofences) {
+                        self._geofences = geofences;
+                        self._geofencesPromise.resolve(geofences);
+                    }, function (reason) {
+                        $log.log("Error fetching geofences", reason);
+                        self._geofencesPromise.reject(reason);
+                    });
+                }
+                return self._geofencesPromise.promise;
             },
             addOrUpdate: function (geofence) {
-                if ((this.createdGeofenceDraft && this.createdGeofenceDraft == geofence) ||
-                    !this.findById(geofence.id)) {
-                    this._geofences.push(geofence);
-                }
-                $window.geofence.addOrUpdate(geofence);
-                localStorage['geofences'] = angular.toJson(this._geofences);
-                if (this.createdGeofenceDraft) {
-                    this.createdGeofenceDraft = null;
-                }
+                var self = this;
+                $window.geofence.addOrUpdate(geofence).then(function () {
+                    if ((self.createdGeofenceDraft && self.createdGeofenceDraft === geofence) ||
+                    !self.findById(geofence.id)) {
+                        self._geofences.push(geofence);
+                        self.saveToLocalStorage();
+                    }
+
+                    if (self.createdGeofenceDraft) {
+                        self.createdGeofenceDraft = null;
+                    }
+                });
+
             },
             findById: function (id) {
                 if (this.createdGeofenceDraft && this.createdGeofenceDraft.id === id) {
                     return this.createdGeofenceDraft;
                 }
                 var geoFences = this._geofences.filter(function (g) {
-                    return g.id === id
+                    return g.id === id;
                 });
                 if (geoFences.length > 0) {
                     return geoFences[0];
@@ -90,8 +106,9 @@ angular.module('ionic-geofence')
                 $window.geofence.remove(geofence.id).then(function () {
                     $ionicLoading.hide();
                     self._geofences.splice(self._geofences.indexOf(geofence), 1);
-                    localStorage['geofences'] = angular.toJson(self._geofences);
+                    self.saveToLocalStorage();
                 }, function (reason) {
+                    $log.log('Error while removing geofence', reason);
                     $ionicLoading.show({
                         template: 'Error',
                         duration: 1500
@@ -106,8 +123,9 @@ angular.module('ionic-geofence')
                 $window.geofence.removeAll().then(function () {
                     $ionicLoading.hide();
                     self._geofences.length = 0;
-                    localStorage['geofences'] = angular.toJson(self._geofences);
+                    self.saveToLocalStorage();
                 }, function (reason) {
+                    $log.log('Error while removing all geofences', reason);
                     $ionicLoading.show({
                         template: 'Error',
                         duration: 1500
@@ -126,6 +144,7 @@ angular.module('ionic-geofence')
                 return max + 1;
             }
         };
+
         return geofenceService;
     })
     .factory('geolocationService', function ($q, $timeout) {
@@ -141,7 +160,7 @@ angular.module('ionic-geofence')
                         }, 10000);
                     }, function () {
                         deffered.reject();
-                    })
+                    });
                     return deffered.promise;
                 }
                 return $q.when(currentPositionCache);

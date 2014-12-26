@@ -5,6 +5,7 @@ angular.module('ionic-geofence')
         });
 
         $scope.geofences = [];
+
         geofenceService.getAll().then(function (geofences) {
             $scope.geofences = geofences;
             $ionicLoading.hide();
@@ -19,10 +20,7 @@ angular.module('ionic-geofence')
                 .then(function (position) {
                     $log.log('Current location found');
                     $ionicLoading.hide();
-                    //workaround ionic loading race condition
-                    $timeout(function () {
-                        $ionicLoading.hide();
-                    }, 100);
+
                     geofenceService.createdGeofenceDraft = {
                         id: UUIDjs.create().toString(),
                         latitude: position.coords.latitude,
