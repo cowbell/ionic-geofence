@@ -107,7 +107,7 @@ angular.module('ionic-geofence')
     };
 
     $scope.chooseWhenIamLeaving = function () {
-        $scope.geofence.transitionType = 0;
+        $scope.geofence.transitionType = 2;
     };
 
     $scope.save = function () {
