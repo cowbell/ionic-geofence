@@ -26,7 +26,7 @@ angular.module('ionic-geofence')
                         latitude: position.coords.latitude,
                         longitude: position.coords.longitude,
                         radius: 1000,
-                        transitionType: 1,
+                        transitionType: TransitionType.ENTER,
                         notification: {
                             id: geofenceService.getNextNotificationId(),
                             title: 'Ionic geofence example',
@@ -99,15 +99,15 @@ angular.module('ionic-geofence')
     };
 
     $scope.isWhenGettingCloser = function () {
-        return $scope.geofence.transitionType === 1;
+        return $scope.geofence.transitionType === TransitionType.ENTER;
     };
 
     $scope.chooseWhenIgetCloser = function () {
-        $scope.geofence.transitionType = 1;
+        $scope.geofence.transitionType = TransitionType.ENTER;
     };
 
     $scope.chooseWhenIamLeaving = function () {
-        $scope.geofence.transitionType = 2;
+        $scope.geofence.transitionType = TransitionType.EXIT;
     };
 
     $scope.save = function () {
