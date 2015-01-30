@@ -61,12 +61,18 @@ angular.module('ionic-geofence')
         $scope.more = function () {
             // Show the action sheet
             $ionicActionSheet.show({
+                buttons: [
+                    { text: 'Test application' }
+                ],
                 destructiveText: 'Delete all geofences',
                 titleText: 'More options',
                 cancelText: 'Cancel',
                 destructiveButtonClicked: function () {
                     geofenceService.removeAll();
                     return true;
+                },
+                buttonClicked: function(index) {
+                    window.location.href = 'cdvtests/index.html';
                 }
             });
         };

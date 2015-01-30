@@ -8,6 +8,8 @@
 var pluginlist = [
     "https://github.com/Initsogar/cordova-webintent",
     "https://github.com/cowbell/cordova-plugin-geofence.git",
+    "https://github.com/cowbell/cordova-plugin-geofence.git#:/tests",
+    "http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git",
     //"~/dev/js/cordova/plugins/geofence",
     "com.ionic.keyboard",
     "org.apache.cordova.geolocation",
