@@ -6,3 +6,4 @@ plugins
 out
 .idea
 app/components
+.DS_Store
