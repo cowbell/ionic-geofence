@@ -1,7 +1,6 @@
 # Ionic geofence sample project
 
-[![Build Status](https
-travis-ci.org/cowbell/ionic-geofence.svg?branch=master)](https://travis-ci.org/cowbell/ionic-geofence)
+[![Build Status](https://travis-ci.org/cowbell/ionic-geofence.svg?branch=master)](https://travis-ci.org/cowbell/ionic-geofence)
 
 Sample project using [cordova geofence plugin](https://github.com/tsubik/cordova-plugin-geofence)
 
