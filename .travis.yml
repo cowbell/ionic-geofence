@@ -1,0 +1,27 @@
+language: android
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-19.0.0
+  - android-19
+sudo: false
+cache:
+  directories:
+    - node_modules
+    - www/lib
+install:
+- echo "Install stage"
+- npm install
+- bower install
+before_script:
+- echo "Before script stage"
+script:
+- echo "Script stage"
+- ionic platform add android
+- ionic build --release android
+after_failure:
+- echo "After failure stage"
+after_script:
+- echo "After script stage"
+
