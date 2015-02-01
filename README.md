@@ -25,9 +25,17 @@ ionic platform add android
 ionic run android
 ```
 
+For iOS
+
+```
+ionic platform add ios
+ionic run ios
+```
+
 ##Platforms
 
 - Android
+- iOS
 
 ##License
 
