@@ -1,14 +1,18 @@
 angular.module('ionic-geofence')
     .controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
         $ionicLoading.show({
-            template: 'Getting geofences from device...'
+            template: 'Getting geofences from device...',
+            duration: 5000
         });
 
         $scope.geofences = [];
 
         geofenceService.getAll().then(function (geofences) {
-            $scope.geofences = geofences;
             $ionicLoading.hide();
+            $scope.geofences = geofences;
+        }, function (reason) {
+            $ionicLoading.hide();
+            $log.log('An Error has occured', reason);
         });
 
         $scope.createNew = function () {
@@ -38,9 +42,8 @@ angular.module('ionic-geofence')
                     $state.go('geofence', {
                         geofenceId: geofenceService.createdGeofenceDraft.id
                     });
-                })
-                .catch(function () {
-                    $log.log('Cannot obtain current locaiton');
+                }, function (reason) {
+                    $log.log('Cannot obtain current location', reason);
                     $ionicLoading.show({
                         template: 'Cannot obtain current location',
                         duration: 1500
