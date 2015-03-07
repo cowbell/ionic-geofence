@@ -4,7 +4,7 @@
  * Install all plugins listed in package.json
  * https://raw.githubusercontent.com/diegonetto/generator-ionic/master/templates/hooks/after_platform_add/install_plugins.js
  */
-var exec = require('child_process').exec;
+var spawnSync = require('spawn-sync');
 var path = require('path');
 var sys = require('sys');
 
@@ -14,7 +14,7 @@ var cmd = process.platform === 'win32' ? 'cordova.cmd' : 'cordova';
 
 packageJSON.cordovaPlugins = packageJSON.cordovaPlugins || [];
 packageJSON.cordovaPlugins.forEach(function (plugin) {
-  exec('cordova plugin add ' + plugin, function (error, stdout, stderr) {
-    sys.puts(stdout);
-  });
+    var result = spawnSync('cordova', ['plugin','add', plugin]);
+    process.stdout.write(result.stdout);
+    process.stderr.write(result.stderr);
 });
