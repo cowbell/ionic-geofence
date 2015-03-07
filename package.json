@@ -16,12 +16,12 @@
     "spawn-sync": "^1.0.5"
   },
   "cordovaPlugins": [
+    "https://github.com/cowbell/cordova-plugin-geofence.git",
     "https://github.com/cowbell/cordova-plugin-geofence.git#:/tests",
     "http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git",
     "org.apache.cordova.console",
     "com.ionic.keyboard",
     "org.apache.cordova.geolocation",
-    "https://github.com/Initsogar/cordova-webintent",
-    "/Users/tomasz/dev/cordova-plugin-geofence"
+    "https://github.com/Initsogar/cordova-webintent"
   ]
 }
