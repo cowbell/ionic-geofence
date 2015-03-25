@@ -49,10 +49,15 @@
     @include display-flex();
     @include flex-direction(column);
   }
+
+  input,
+  textarea {
+    width: 100%;
+  }
 }
 
 .popup-head {
-  padding: 15px 0px;
+  padding: 15px 10px;
   border-bottom: 1px solid #eee;
   text-align: center;
 }
@@ -80,6 +85,7 @@
 
   .button {
     @include flex(1);
+    display: block;
     min-height: $popup-button-min-height;
     border-radius: $popup-button-border-radius;
     line-height: $popup-button-line-height;
