@@ -15,8 +15,8 @@
       <input type="text" placeholder="Enter notification text" ng-model="geofence.notification.text" hide-keyboard-on-enter>
     </label>
     <div class="button-bar">
-      <a class="button" ng-class=" isWhenGettingCloser() ? 'button-positive' : 'button-light'" ng-click="chooseWhenIgetCloser()">When I get close</a>
-      <a class="button" ng-class=" isWhenGettingCloser() ? 'button-light' : 'button-positive'" ng-click="chooseWhenIamLeaving()">When I go away</a>
+      <a class="button" ng-class="isTransitionOfType(TransitionType.ENTER) ? 'button-positive' : 'button-light'" ng-click="toggleWhenIgetCloser()">When I get close</a>
+      <a class="button" ng-class="isTransitionOfType(TransitionType.EXIT) ? 'button-positive' : 'button-light'" ng-click="toggleWhenIamLeaving()">When I go away</a>
     </div>
     <div class="range" data-tap-disabled="true">
       on
