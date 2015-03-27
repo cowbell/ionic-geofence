@@ -13,7 +13,6 @@ cache:
 install:
 - echo "Install stage"
 - npm install
-- bower install
 before_script:
 - echo "Before script stage"
 script:
