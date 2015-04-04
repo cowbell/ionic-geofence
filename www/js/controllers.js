@@ -130,7 +130,7 @@ angular.module('ionic-geofence')
             $scope.geofence.latitude = $scope.markers.marker.lat;
             $scope.geofence.longitude = $scope.markers.marker.lng;
             geofenceService.addOrUpdate($scope.geofence);
-            $state.go('geofences');    
+            $state.go('geofences');
         }
     };
 

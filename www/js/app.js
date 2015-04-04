@@ -47,6 +47,10 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                     if (geofences) {
                         $rootScope.$apply(function () {
                             geofences.forEach(function (geo) {
+                                geo.notification = geo.notification || {
+                                    title: 'Geofence transition',
+                                    text: 'Without notification'
+                                };
                                 toaster.pop('info', geo.notification.title, geo.notification.text);
                             });
                         });

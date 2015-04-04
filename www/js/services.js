@@ -28,7 +28,8 @@ angular.module('ionic-geofence')
         };
         $window.TransitionType = $window.TransitionType || {
             ENTER: 1,
-            EXIT: 2
+            EXIT: 2,
+            BOTH: 3
         };
 
         var geofenceService = {
