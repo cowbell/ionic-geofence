@@ -8,14 +8,10 @@ Sample project using [cordova geofence plugin](https://github.com/tsubik/cordova
 
 ##Installation
 
+Use local npm packages
+
 ```
 npm install
-```
-
-If you do not have cordova or ionic
-
-```
-npm install -g cordova ionic
 ```
 
 For testing in browser
