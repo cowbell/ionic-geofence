@@ -35,6 +35,7 @@ angular.module('ionic-geofence')
                             id: geofenceService.getNextNotificationId(),
                             title: 'Ionic geofence example',
                             text: '',
+                            icon: 'res://ic_menu_mylocation',
                             openAppOnClick: true
                         }
                     };
