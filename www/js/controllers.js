@@ -38,7 +38,6 @@ angular.module('ionic-geofence')
                             openAppOnClick: true
                         }
                     };
-                    geofenceService.createdGeofenceDraft.notification.data = angular.copy(geofenceService.createdGeofenceDraft);
                     $state.go('geofence', {
                         geofenceId: geofenceService.createdGeofenceDraft.id
                     });
@@ -129,6 +128,8 @@ angular.module('ionic-geofence')
             $scope.geofence.radius = parseInt($scope.paths.circle.radius);
             $scope.geofence.latitude = $scope.markers.marker.lat;
             $scope.geofence.longitude = $scope.markers.marker.lng;
+            $scope.geofence.notification.data = angular.copy($scope.geofence);
+
             geofenceService.addOrUpdate($scope.geofence);
             $state.go('geofences');
         }

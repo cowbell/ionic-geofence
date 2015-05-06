@@ -42,7 +42,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
             if ($window.geofence) {
                 $window.geofence.initialize();
 
-                $window.geofence.receiveTransition = function (geofences) {
+                $window.geofence.onTransitionReceived = function (geofences) {
                     $log.log(geofences);
                     if (geofences) {
                         $rootScope.$apply(function () {
@@ -53,6 +53,15 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                                 };
                                 toaster.pop('info', geo.notification.title, geo.notification.text);
                             });
+                        });
+                    }
+                };
+
+                $window.geofence.onNotificationClicked = function (notificationData) {
+                    $log.log(notificationData);
+                    if (notificationData) {
+                        $rootScope.$apply(function () {
+                            toaster.pop('warning', 'Notification clicked', notificationData.notification.text);
                         });
                     }
                 };
