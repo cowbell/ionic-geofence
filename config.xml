@@ -38,29 +38,9 @@
         <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
-    <feature name="geofence">
-        <param name="id" value="com.cowbell.cordova.geofence" />
-        <param name="url" value="https://github.com/cowbell/cordova-plugin-geofence.git" />
-    </feature>
-    <feature name="Geofence plugin Tests">
-        <param name="id" value="com.cowbell.cordova.geofence.tests" />
-        <param name="url" value="https://github.com/cowbell/cordova-plugin-geofence.git#:/tests" />
-    </feature>
-    <feature name="Test Framework">
-        <param name="id" value="org.apache.cordova.test-framework" />
-        <param name="url" value="http://git-wip-us.apache.org/repos/asf/cordova-plugin-test-framework.git" />
-    </feature>
-    <feature name="Console">
-        <param name="id" value="org.apache.cordova.console" />
-    </feature>
-    <feature name="Keyboard">
-        <param name="id" value="com.ionic.keyboard" />
-    </feature>
-    <feature name="Geolocation">
-        <param name="id" value="org.apache.cordova.geolocation" />
-    </feature>
-    <feature name="WebIntent">
-        <param name="id" value="com.borismus.webintent" />
-        <param name="url" value="https://github.com/Initsogar/cordova-webintent" />
-    </feature>
+    <plugin name="cordova-plugin-geofence" spec="^0.4.0" />
+    <plugin name="cordova-plugin-geofence-test" spec="https://github.com/cowbell/cordova-plugin-geofence.git#:/tests" />
+    <plugin name="cordova-plugin-console" spec="^1.0.0" />
+    <plugin name="cordova-plugin-geolocation" spec="^1.0.0" />
+    <plugin name="com.borismus.webintent" spec="https://github.com/Initsogar/cordova-webintent.git" />
 </widget>
