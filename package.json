@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "ionic-geofence: An Ionic project",
   "devDependencies": {
+    "bower": "^1.4.1",
     "cordova": "^5.0.0",
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
@@ -15,5 +16,7 @@
     "spawn-sync": "^1.0.5"
   },
   "cordovaPlugins": [],
-  "cordovaPlatforms": []
+  "cordovaPlatforms": [
+    "android"
+  ]
 }

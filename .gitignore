@@ -7,3 +7,4 @@ out
 .idea
 app/components
 .DS_Store
+www/lib
