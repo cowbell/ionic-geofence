@@ -15,7 +15,9 @@
     "shelljs": "^0.3.0",
     "spawn-sync": "^1.0.5"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "cordova-plugin-whitelist"
+  ],
   "cordovaPlatforms": [
     "android"
   ]

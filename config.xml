@@ -43,4 +43,5 @@
     <plugin name="cordova-plugin-console" spec="^1.0.0" />
     <plugin name="cordova-plugin-geolocation" spec="^1.0.0" />
     <plugin name="com.borismus.webintent" spec="https://github.com/Initsogar/cordova-webintent.git" />
+    <plugin name="cordova-plugin-whitelist" spec="^1.0.0" />
 </widget>
