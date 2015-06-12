@@ -16,7 +16,8 @@
     "spawn-sync": "^1.0.5"
   },
   "cordovaPlugins": [
-    "cordova-plugin-whitelist"
+    "cordova-plugin-whitelist",
+    "cordova-plugin-test-framework"
   ],
   "cordovaPlatforms": [
     "android"
