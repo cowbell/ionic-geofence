@@ -3,22 +3,19 @@
   "version": "1.0.0",
   "description": "ionic-geofence: An Ionic project",
   "devDependencies": {
-    "bower": "^1.4.1",
-    "cordova": "^5.0.0",
-    "gulp": "^3.5.6",
-    "gulp-concat": "^2.2.0",
-    "gulp-minify-css": "^0.3.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-sass": "^0.7.1",
-    "gulp-util": "^2.2.14",
-    "ionic": "^1.5.0",
-    "shelljs": "^0.3.0",
-    "spawn-sync": "^1.0.5"
+    "bower": "~1.4.1",
+    "cordova": "~5.0.0",
+    "gulp": "~3.9.0",
+    "gulp-concat": "~2.5.2",
+    "gulp-minify-css": "~1.1.6",
+    "gulp-rename": "~1.2.2",
+    "gulp-sass": "~2.0.1",
+    "gulp-util": "~3.0.5",
+    "ionic": "~1.5.5",
+    "shelljs": "~0.5.1",
+    "spawn-sync": "~1.0.11"
   },
-  "cordovaPlugins": [
-    "cordova-plugin-whitelist",
-    "cordova-plugin-test-framework"
-  ],
+  "cordovaPlugins": [],
   "cordovaPlatforms": [
     "android"
   ]
