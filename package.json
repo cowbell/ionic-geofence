@@ -1,7 +1,7 @@
 {
   "name": "ionic-geofence",
   "version": "1.0.0",
-  "description": "ionic-geofence: An Ionic project",
+  "description": "Geofence Sample Application Built With Ionic",
   "devDependencies": {
     "bower": "~1.6.3",
     "cordova": "~5.3.3",
