@@ -1,4 +1,6 @@
 language: android
+node_js:
+  -"4.1"
 android:
   components:
   - platform-tools
