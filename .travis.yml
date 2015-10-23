@@ -11,16 +11,9 @@ cache:
     - node_modules
     - www/lib
 install:
-- echo "Install stage"
 - npm install
-before_script:
-- echo "Before script stage"
+- npm link
 script:
-- echo "Script stage"
 - ionic platform add android
 - ionic build --release android
-after_failure:
-- echo "After failure stage"
-after_script:
-- echo "After script stage"
 
