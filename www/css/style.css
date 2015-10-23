@@ -1,1 +1,5 @@
 /* Empty. Add your own CSS if you like */
+
+.platform-android .action-sheet-cancel {
+    display: block !important;
+}

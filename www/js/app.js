@@ -1,6 +1,6 @@
 // Ionic Geofence example App
 
-angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
+angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
     .config(function ($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('geofences', {
@@ -25,7 +25,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
 
         $urlRouterProvider.otherwise('/geofences');
     })
-    .run(function ($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope, toaster) {
+    .run(function ($window, $document, $ionicLoading, $state, $ionicPlatform, $log, $rootScope) {
         $ionicPlatform.ready(function () {
             $log.log('Ionic ready');
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -48,7 +48,11 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                                     title: 'Geofence transition',
                                     text: 'Without notification'
                                 };
-                                toaster.pop('info', geo.notification.title, geo.notification.text);
+                                $ionicLoading.show({
+                                    template: geo.notification.title + ': ' + geo.notification.text,
+                                    noBackdrop: true,
+                                    duration: 2000
+                                });
                             });
                         });
                     }
@@ -58,7 +62,11 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive', 'toaster'])
                     $log.log(notificationData);
                     if (notificationData) {
                         $rootScope.$apply(function () {
-                            toaster.pop('warning', 'Notification clicked', notificationData.notification.text);
+                            $ionicLoading.show({
+                                template: 'Notification clicked: ' + notificationData.notification.text,
+                                noBackdrop: true,
+                                duration: 2000
+                            });
                         });
                     }
                 };

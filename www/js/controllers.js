@@ -66,12 +66,12 @@ angular.module('ionic-geofence')
         $scope.more = function () {
             // Show the action sheet
             $ionicActionSheet.show({
-                buttons: [
-                    { text: 'Test application' }
-                ],
-                destructiveText: 'Delete all geofences',
                 titleText: 'More options',
-                cancelText: 'Cancel',
+                buttons: [
+                    { text: '<i class="icon ion-checkmark-circled"></i> Test application' }
+                ],
+                destructiveText: '<i class="icon ion-trash-b"></i> Delete all geofences',
+                cancelText: '<i class="icon ion-android-cancel"></i> Cancel',
                 destructiveButtonClicked: function () {
                     geofenceService.removeAll();
                     return true;

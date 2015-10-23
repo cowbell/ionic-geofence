@@ -2,10 +2,9 @@
   "name": "ionic-geofence",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.0.0"
+    "ionic": "driftyco/ionic-bower#1.1.0"
   },
   "dependencies": {
-    "angularjs-toaster": "~0.4.14",
     "leaflet": "~0.7.3"
   }
 }

@@ -1,5 +1,5 @@
 angular.module('ionic-geofence')
-    .factory('geofenceService', function ($rootScope, $window, $q, $log, $ionicLoading, toaster) {
+    .factory('geofenceService', function ($rootScope, $window, $q, $log, $ionicLoading) {
 
         $window.geofence = $window.geofence || {
             addOrUpdate: function (fences) {
@@ -20,11 +20,8 @@ angular.module('ionic-geofence')
                 deffered.resolve();
                 return deffered.promise;
             },
-            receiveTransition: function () {
-                $rootScope.$apply(function () {
-                    toaster.pop('info', 'title', 'text');
-                });
-            }
+            initialize: function () {},
+            receiveTransition: function () {}
         };
         $window.TransitionType = $window.TransitionType || {
             ENTER: 1,
