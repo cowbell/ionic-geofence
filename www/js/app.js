@@ -37,8 +37,6 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                 $window.StatusBar.styleDefault();
             }
             if ($window.geofence) {
-                $window.geofence.initialize();
-
                 $window.geofence.onTransitionReceived = function (geofences) {
                     $log.log(geofences);
                     if (geofences) {
@@ -70,6 +68,8 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                         });
                     }
                 };
+
+                $window.geofence.initialize();
             }
             if ($window.plugins && $window.plugins.webintent) {
                 $log.log('WebIntent plugin found');
