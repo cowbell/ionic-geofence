@@ -20,7 +20,7 @@ angular.module('ionic-geofence')
                 deffered.resolve();
                 return deffered.promise;
             },
-            receiveTransition: function (obj) {
+            receiveTransition: function () {
                 $rootScope.$apply(function () {
                     toaster.pop('info', 'title', 'text');
                 });

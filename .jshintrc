@@ -2,6 +2,8 @@
   "predef": [
     "document",
     "window",
+    "angular",
+    "cordova",
     "-Promise"
   ],
   "browser": true,

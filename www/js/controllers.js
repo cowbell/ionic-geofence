@@ -1,5 +1,7 @@
+/*global TransitionType, UUIDjs*/
+
 angular.module('ionic-geofence')
-    .controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading, $ionicActionSheet) {
+    .controller('GeofencesCtrl', function ($scope, $ionicActionSheet, $timeout, $log, $state, geolocationService, geofenceService, $ionicLoading) {
         $ionicLoading.show({
             template: 'Getting geofences from device...',
             duration: 5000
@@ -74,7 +76,7 @@ angular.module('ionic-geofence')
                     geofenceService.removeAll();
                     return true;
                 },
-                buttonClicked: function(index) {
+                buttonClicked: function() {
                     window.location.href = 'cdvtests/index.html';
                 }
             });
@@ -153,5 +155,5 @@ angular.module('ionic-geofence')
             return false;
         }
         return true;
-    };
+    }
 });
