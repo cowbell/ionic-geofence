@@ -162,7 +162,7 @@ angular.module('ionic-geofence')
                         }, 10000);
                     }, function () {
                         deffered.reject();
-                    });
+                    }, {timeout:10000});
                     return deffered.promise;
                 }
                 return $q.when(currentPositionCache);
