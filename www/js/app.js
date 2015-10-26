@@ -58,6 +58,7 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
 
                 $window.geofence.onNotificationClicked = function (notificationData) {
                     $log.log(notificationData);
+
                     if (notificationData) {
                         $rootScope.$apply(function () {
                             $ionicLoading.show({
@@ -65,29 +66,17 @@ angular.module('ionic-geofence', ['ionic', 'leaflet-directive'])
                                 noBackdrop: true,
                                 duration: 2000
                             });
+
+                            $state.go('geofence', {
+                                geofenceId: notificationData.id
+                            });
                         });
                     }
                 };
 
-                $window.geofence.initialize();
-            }
-            if ($window.plugins && $window.plugins.webintent) {
-                $log.log('WebIntent plugin found');
-                $window.plugins.webintent.getExtra('geofence.notification.data',
-                    function (geofenceJson) {
-                        if (geofenceJson) {
-                            var geofence = angular.fromJson(geofenceJson);
-                            $log.log('geofence.notification.data', geofence);
-                            $state.go('geofence', {
-                                geofenceId: geofence.id
-                            });
-                        }
-                    },
-                    function () {
-                        $log.log('no extra geofence.notification.data supplied');
-                        // There was no extra supplied.
-                    }
-                );
+                $window.geofence.initialize(function () {
+                    $log.log('Geofence plugin initialized');
+                });
             }
         });
 

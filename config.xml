@@ -45,5 +45,4 @@
   <plugin name="cordova-plugin-whitelist" spec="^1.0.0" />
   <plugin name="cordova-plugin-test-framework" spec="^1.0.0" />
   <plugin name="com.ionic.keyboard" spec="https://github.com/driftyco/ionic-plugin-keyboard" />
-  <plugin name="com.borismus.webintent" spec="https://github.com/Initsogar/cordova-webintent.git" />
 </widget>
