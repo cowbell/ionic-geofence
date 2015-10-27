@@ -44,5 +44,5 @@
   <plugin name="cordova-plugin-geolocation" spec="^1.0.0" />
   <plugin name="cordova-plugin-whitelist" spec="^1.0.0" />
   <plugin name="cordova-plugin-test-framework" spec="^1.0.0" />
-  <plugin name="com.ionic.keyboard" spec="https://github.com/driftyco/ionic-plugin-keyboard" />
+  <plugin name="ionic-plugin-keyboard" spec="^1.0.0" />
 </widget>
