@@ -4,7 +4,9 @@
     "window",
     "angular",
     "cordova",
-    "-Promise"
+    "-Promise",
+    "require",
+    "exports"
   ],
   "browser": true,
   "boss": true,

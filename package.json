@@ -6,14 +6,9 @@
     "bower": "~1.6.3",
     "cordova": "~5.3.3",
     "gulp": "~3.9.0",
-    "gulp-concat": "~2.6.0",
-    "gulp-minify-css": "~1.2.1",
-    "gulp-rename": "~1.2.2",
-    "gulp-sass": "~2.0.1",
     "gulp-util": "~3.0.5",
     "ionic": "~1.7.7",
-    "shelljs": "~0.5.1",
-    "spawn-sync": "~1.0.11"
+    "shelljs": "~0.5.1"
   },
   "cordovaPlugins": [],
   "cordovaPlatforms": [
