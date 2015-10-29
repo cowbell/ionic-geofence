@@ -3,17 +3,17 @@
   "version": "1.0.0",
   "description": "Geofence Sample Application Built With Ionic",
   "devDependencies": {
+    "appium": "^1.4.13",
+    "babel": "^5.8.29",
     "bower": "~1.6.3",
     "cordova": "~5.3.3",
     "gulp": "~3.9.0",
-    "gulp-concat": "~2.6.0",
-    "gulp-minify-css": "~1.2.1",
-    "gulp-rename": "~1.2.2",
-    "gulp-sass": "~2.0.1",
     "gulp-util": "~3.0.5",
     "ionic": "~1.7.7",
+    "protractor": "^2.5.1",
     "shelljs": "~0.5.1",
-    "spawn-sync": "~1.0.11"
+    "wd": "^0.3.12",
+    "wd-bridge": "0.0.2"
   },
   "cordovaPlugins": [],
   "cordovaPlatforms": [

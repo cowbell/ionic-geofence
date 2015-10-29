@@ -6,9 +6,14 @@
     "cordova",
     "-Promise",
     "require",
-    "exports"
+    "exports",
+    "element",
+    "protractor",
+    "by"
   ],
-  "browser": true,
+  "jasmine": true,
+  "browser": false,
+  "node": false,
   "boss": true,
   "curly": true,
   "debug": false,
