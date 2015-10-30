@@ -23,4 +23,29 @@ describe("Geofence test", () => {
         expect(geofenceList.first().getText()).toContain("Tested geofence region");
         done();
     });
+
+    it("should remove added geofence", (done) => {
+        const removeButton = element(by.css(".ion-trash-b"));
+        const geofenceList = element.all(by.repeater("geofence in geofences"));
+
+        expect(geofenceList.count()).toBe(1);
+        removeButton.click();
+        expect(geofenceList.count()).toBe(0);
+        done();
+    });
+
+    it("should remove all added geofences", (done) => {
+        const moreOptionsButton = element(by.css(".ion-more"));
+        const removeAllButton = element(by.buttonText("Delete all geofences"));
+        const geofenceList = element.all(by.repeater("geofence in geofences"));
+
+        addGeofence("First geofence");
+        addGeofence("Second geofences");
+
+        expect(geofenceList.count()).toBe(2);
+        moreOptionsButton.click();
+        removeAllButton.click();
+        expect(geofenceList.count()).toBe(0);
+        done();
+    });
 });
