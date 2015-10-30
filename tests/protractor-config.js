@@ -1,7 +1,7 @@
 exports.config = {
     framework: "jasmine2",
     seleniumAddress: "http://localhost:4723/wd/hub",
-
+    // seleniumAddress: "http://localhost:4444/wd/hub",
     specs: ["integration/*_test.js"],
 
     capabilities: {
@@ -16,7 +16,16 @@ exports.config = {
         //CHANGE THIS TO YOUR ABSOLUTE PATH
         app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
     },
-    baseUrl: "http://localhost:8000",
+    // capabilities: {
+    //     "browserName": "chrome",
+    //     "chromeOptions":{
+    //         prefs: {
+    //             "profile.managed_default_content_settings.geolocation": 1
+    //         }
+    //     }
+    // },
+    // baseUrl: "http://localhost:8100",
+    baseUrl: "http://10.0.2.2:8000",
 
     // configuring wd in onPrepare
     // wdBridge helps to bridge wd driver with other selenium clients

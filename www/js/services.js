@@ -149,22 +149,26 @@ angular.module('ionic-geofence')
 
         return geofenceService;
     })
-    .factory('geolocationService', function ($q, $timeout) {
+    .factory('geolocationService', function ($q, $interval) {
         var currentPositionCache;
+
         return {
             getCurrentPosition: function () {
                 if (!currentPositionCache) {
                     var deffered = $q.defer();
+
                     navigator.geolocation.getCurrentPosition(function (position) {
                         deffered.resolve(currentPositionCache = position);
-                        $timeout(function () {
+                        $interval(function () {
                             currentPositionCache = undefined;
-                        }, 10000);
+                        }, 10000, 1);
                     }, function () {
                         deffered.reject();
                     }, {timeout:10000});
+
                     return deffered.promise;
                 }
+
                 return $q.when(currentPositionCache);
             }
         };
