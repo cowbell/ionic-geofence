@@ -15,6 +15,10 @@ describe("Geofence test", () => {
         saveGeofenceButton.click();
     }
 
+    beforeAll(function() {
+        wdBrowser.setGeoLocation(50, 50, 100);
+    });
+
     it("should add geofence", (done) => {
         const geofenceList = element.all(by.repeater("geofence in geofences"));
         addGeofence("Tested geofence region");
