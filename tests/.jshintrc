@@ -11,7 +11,8 @@
     "protractor",
     "by",
     "browser",
-    "wdBrowser"
+    "wdBrowser",
+    "process"
   ],
   "jasmine": true,
   "browser": false,
