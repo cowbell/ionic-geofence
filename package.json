@@ -9,9 +9,11 @@
     "cordova": "~5.3.3",
     "dotenv": "^1.2.0",
     "gulp": "~3.9.0",
+    "gulp-protractor": "^1.0.0",
     "gulp-util": "~3.0.5",
     "ionic": "~1.7.7",
     "protractor": "^2.5.1",
+    "run-sequence": "^1.1.4",
     "shelljs": "~0.5.1",
     "wd": "^0.3.12",
     "wd-bridge": "0.0.2"

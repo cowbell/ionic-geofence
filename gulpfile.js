@@ -2,7 +2,9 @@ var gulp = require("gulp");
 var gutil = require("gulp-util");
 var bower = require("bower");
 var sh = require("shelljs");
-var execSync = require("child_process").execSync;
+var cp = require("child_process");
+var protractor = require('gulp-protractor').protractor;
+var runSequence = require('run-sequence');
 
 var paths = {
     sass: ["./scss/**/*.scss"]
@@ -10,9 +12,61 @@ var paths = {
 
 gulp.task("default", ["sass"]);
 
-gulp.task("integration", function () {
-    execSync("ionic build android");
-    execSync("protractor tests/protractor-config.js");
+gulp.task("build-debug", function (callback) {
+    cp.exec("ionic build android", function (error) {
+        if (error) {
+            return callback(error);
+        }
+        callback();
+    });
+});
+
+gulp.task("start-appium", function (callback) {
+    var appium_process = cp.spawn("appium", ["--chromedriver-executable", "/home/tomasz/.bin/chromedriver"]);
+
+    appium_process.stdout.on("data", function (data) {
+        if (data.toString().indexOf("Appium REST http interface listener started") > -1) {
+            callback();
+        }
+    });
+
+    appium_process.stderr.pipe(process.stderr);
+});
+
+gulp.task("protractor:local:android_5.0.1", function () {
+    return gulp.src(["./tests/e2e/**/*_test.js"])
+        .pipe(protractor({
+            configFile: "tests/e2e/local-config.js",
+            args: ["--params.avd=android_5_0_1"]
+        }))
+        .on('error', function(e) { throw e });
+});
+
+gulp.task("protractor:local:android_5.1.1", function () {
+    return gulp.src(["./tests/e2e/**/*_test.js"])
+        .pipe(protractor({
+            configFile: "tests/e2e/local-config.js",
+            args: ["--params.avd=android_5_1_1"]
+        }))
+        .on('error', function(e) { throw e });
+});
+
+gulp.task("protractor:local:android_6.0", function () {
+    return gulp.src(["./tests/e2e/**/*_test.js"])
+        .pipe(protractor({
+            configFile: "tests/e2e/local-config.js",
+            args: ["--params.avd=android_6_0"]
+        }))
+        .on('error', function(e) { throw e });
+});
+
+gulp.task("test:integration:local", ["build-debug", "start-appium"], function (callback) {
+    runSequence(
+        "protractor:local:android_5.0.1",
+        "protractor:local:android_5.1.1",
+        "protractor:local:android_6.0",
+        callback
+    );
 });
 
 gulp.task("watch", function () {
