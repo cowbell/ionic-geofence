@@ -5,6 +5,7 @@ var sh = require("shelljs");
 var cp = require("child_process");
 var protractor = require('gulp-protractor').protractor;
 var runSequence = require('run-sequence');
+var appium_process;
 
 var paths = {
     sass: ["./scss/**/*.scss"]
@@ -22,7 +23,7 @@ gulp.task("build-debug", function (callback) {
 });
 
 gulp.task("start-appium", function (callback) {
-    var appium_process = cp.spawn("appium", ["--chromedriver-executable", "/home/tomasz/.bin/chromedriver"]);
+    appium_process = cp.spawn("appium", ["--chromedriver-executable", "/home/tomasz/.bin/chromedriver"]);
 
     appium_process.stdout.on("data", function (data) {
         if (data.toString().indexOf("Appium REST http interface listener started") > -1) {
@@ -91,4 +92,12 @@ gulp.task("git-check", function (done) {
         process.exit(1);
     }
     done();
+});
+
+process.once("uncaughtException", function (error) {
+    if (appium_process) {
+        appium_process.kill("SIGTERM");
+    }
+
+    throw error;
 });

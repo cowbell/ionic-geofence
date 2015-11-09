@@ -1,7 +1,7 @@
 #!/bin/bash
 
-cordova plugin rm com.cowbell.cordova.geofence
-cordova plugin rm com.cowbell.cordova.geofence.tests
+cordova plugin rm cordova-plugin-geofence
+cordova plugin rm cordova-plugin-geofence-test
 
 cordova plugin add ~/dev/js/cordova/plugins/geofence
 cordova plugin add ~/dev/js/cordova/plugins/geofence/tests

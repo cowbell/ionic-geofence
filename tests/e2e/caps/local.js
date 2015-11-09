@@ -6,7 +6,7 @@ exports.device = {
     browserName: "",
     autoWebview: true,
     fullReset: true,
-    app: "../../platforms/android/build/outputs/apk/android-debug.apk"
+    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
 };
 
 exports.android_6_0 = {
