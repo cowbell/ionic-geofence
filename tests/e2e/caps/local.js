@@ -48,4 +48,17 @@ exports.android_5_0_1 = {
     app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
 };
 
+exports.android_4_4_2 = {
+    platformName: "android",
+    platformVersion: "4.4.2",
+    deviceName: "Android Emulator",
+    avd: "android-4.4.2",
+    browserName: "",
+    autoWebview: true,
+    fullReset: true,
+    // deviceReadyTimeout: 10,
+    //CHANGE THIS TO YOUR ABSOLUTE PATH
+    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
+};
+
 

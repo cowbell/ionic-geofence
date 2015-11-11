@@ -162,9 +162,9 @@ angular.module('ionic-geofence')
                         $interval(function () {
                             currentPositionCache = undefined;
                         }, 10000, 1);
-                    }, function () {
-                        deffered.reject();
-                    }, {timeout:10000});
+                    }, function (error) {
+                        deffered.reject(error);
+                    }, {timeout:20000, enableHighAccuracy: true});
 
                     return deffered.promise;
                 }

@@ -34,13 +34,24 @@ gulp.task("start-appium", function (callback) {
     appium_process.stderr.pipe(process.stderr);
 });
 
+gulp.task("protractor:local:android_4.4.2", function () {
+    return gulp.src(["./tests/e2e/**/*_test.js"])
+        .pipe(protractor({
+            configFile: "tests/e2e/local-config.js",
+            args: ["--params.avd=android_4_4_2"]
+        }))
+        // .on('error', function(e) { throw e })
+        .on("end", killEmulator);
+});
+
 gulp.task("protractor:local:android_5.0.1", function () {
     return gulp.src(["./tests/e2e/**/*_test.js"])
         .pipe(protractor({
             configFile: "tests/e2e/local-config.js",
             args: ["--params.avd=android_5_0_1"]
         }))
-        .on('error', function(e) { throw e });
+        // .on('error', function(e) { throw e })
+        .on("end", killEmulator);
 });
 
 gulp.task("protractor:local:android_5.1.1", function () {
@@ -49,7 +60,8 @@ gulp.task("protractor:local:android_5.1.1", function () {
             configFile: "tests/e2e/local-config.js",
             args: ["--params.avd=android_5_1_1"]
         }))
-        .on('error', function(e) { throw e });
+        // .on('error', function(e) { throw e })
+        .on("end", killEmulator);
 });
 
 gulp.task("protractor:local:android_6.0", function () {
@@ -58,15 +70,21 @@ gulp.task("protractor:local:android_6.0", function () {
             configFile: "tests/e2e/local-config.js",
             args: ["--params.avd=android_6_0"]
         }))
-        .on('error', function(e) { throw e });
+        // .on('error', function(e) { throw e })
+        .on("end", killEmulator);
 });
 
 gulp.task("test:integration:local", ["build-debug", "start-appium"], function (callback) {
     runSequence(
+        "protractor:local:android_4.4.2",
         "protractor:local:android_5.0.1",
         "protractor:local:android_5.1.1",
         "protractor:local:android_6.0",
-        callback
+        function () {
+            cleanup();
+            callback();
+            process.exit(0);
+        }
     );
 });
 
@@ -94,10 +112,19 @@ gulp.task("git-check", function (done) {
     done();
 });
 
-process.once("uncaughtException", function (error) {
+function cleanup() {
     if (appium_process) {
-        appium_process.kill("SIGTERM");
+        appium_process.kill("SIGINT");
     }
+    killEmulator();
+}
+
+function killEmulator() {
+    sh.exec("adb -s emulator-5554 emu kill");
+}
+
+process.once("uncaughtException", function (error) {
+    cleanup();
 
     throw error;
 });

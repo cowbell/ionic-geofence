@@ -1,7 +1,7 @@
 var extend = require("util")._extend;
 var caps = require("./caps/local");
 var baseConfig = require("./base-config").config;
-var avd = caps.android_6_0;
+var avd = caps.android_5_1_1;
 
 process.argv.forEach(function (val) {
     if (val.indexOf("--params.avd") > -1) {
