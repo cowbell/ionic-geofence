@@ -9,7 +9,11 @@ var appium_process;
 
 gulp.task("default", ["test:integration:local"]);
 
-gulp.task("build-debug", function (callback) {
+gulp.task("set-play-services-location-version", function () {
+    sh.exec("sed -i 's/play-services-location:+/play-services-location:6.5.87/g' platforms/android/project.properties");
+});
+
+gulp.task("build-debug", ["set-play-services-location-version"], function (callback) {
     cp.exec("ionic build android", function (error) {
         if (error) {
             return callback(error);
