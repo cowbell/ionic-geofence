@@ -1,64 +1,35 @@
-exports.device = {
-    platformName: "android",
-    platformVersion: "5.1.1",
-    deviceName: "TA8830RX4X",
-    // avd: "android-5",
-    browserName: "",
-    autoWebview: true,
-    fullReset: true,
-    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
-};
+var path = require("path");
 
-exports.android_6_0 = {
+var base = {
     platformName: "android",
-    platformVersion: "6.0",
     deviceName: "Android Emulator",
-    avd: "android-6",
     browserName: "",
     autoWebview: true,
     fullReset: true,
     // deviceReadyTimeout: 10,
-    //CHANGE THIS TO YOUR ABSOLUTE PATH
-    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
+    app: path.resolve("platforms/android/build/outputs/apk/android-debug.apk")
 };
 
-exports.android_5_1_1 = {
-    platformName: "android",
-    platformVersion: "5.1.1",
-    deviceName: "Android Emulator",
-    avd: "android-5.1.1",
-    browserName: "",
-    autoWebview: true,
-    fullReset: true,
-    // deviceReadyTimeout: 10,
-    //CHANGE THIS TO YOUR ABSOLUTE PATH
-    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
+module.exports = {
+    device: Object.assign({}, base, {
+        platformVersion: "5.1.1",
+        deviceName: "TA8830RX4X",
+    }),
+    "android-6.0": Object.assign({}, base, {
+        platformVersion: "6.0",
+        avd: "android-6"
+    }),
+    "android-5.1.1": Object.assign({}, base, {
+        platformName: "android",
+        avd: "android-5.1.1"
+    }),
+    "android-5.0.1": Object.assign({}, base, {
+        platformName: "android",
+        avd: "android-5.0.1"
+    }),
+    "android-4.4.2": Object.assign({}, base, {
+        platformName: "android",
+        avd: "android-4.4.2"
+    })
 };
-
-exports.android_5_0_1 = {
-    platformName: "android",
-    platformVersion: "5.0.1",
-    deviceName: "Android Emulator",
-    avd: "android-5.0.1",
-    browserName: "",
-    autoWebview: true,
-    fullReset: true,
-    // deviceReadyTimeout: 10,
-    //CHANGE THIS TO YOUR ABSOLUTE PATH
-    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
-};
-
-exports.android_4_4_2 = {
-    platformName: "android",
-    platformVersion: "4.4.2",
-    deviceName: "Android Emulator",
-    avd: "android-4.4.2",
-    browserName: "",
-    autoWebview: true,
-    fullReset: true,
-    // deviceReadyTimeout: 10,
-    //CHANGE THIS TO YOUR ABSOLUTE PATH
-    app: "/home/tomasz/dev/js/ionic-geofence/platforms/android/build/outputs/apk/android-debug.apk"
-};
-
 

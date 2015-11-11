@@ -1,10 +1,9 @@
-var extend = require("util")._extend;
 var caps = require("./caps/sauce");
-var baseConfig = require("./base-config").config;
+var baseConfig = require("./base.config").config;
 
 require("dotenv").load();
 
-exports.config = extend(baseConfig, {
+exports.config = Object.assign(baseConfig, {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 

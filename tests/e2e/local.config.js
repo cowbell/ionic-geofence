@@ -1,7 +1,6 @@
-var extend = require("util")._extend;
 var caps = require("./caps/local");
-var baseConfig = require("./base-config").config;
-var avd = caps.android_5_1_1;
+var baseConfig = require("./base.config").config;
+var avd = caps["android-6.0"];
 
 process.argv.forEach(function (val) {
     if (val.indexOf("--params.avd") > -1) {
@@ -11,7 +10,7 @@ process.argv.forEach(function (val) {
     }
 });
 
-exports.config = extend(baseConfig, {
+exports.config = Object.assign(baseConfig, {
     seleniumAddress: "http://localhost:4723/wd/hub",
 
     capabilities: avd

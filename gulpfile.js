@@ -7,11 +7,7 @@ var protractor = require('gulp-protractor').protractor;
 var runSequence = require('run-sequence');
 var appium_process;
 
-var paths = {
-    sass: ["./scss/**/*.scss"]
-};
-
-gulp.task("default", ["sass"]);
+gulp.task("default", ["test:integration:local"]);
 
 gulp.task("build-debug", function (callback) {
     cp.exec("ionic build android", function (error) {
@@ -34,52 +30,17 @@ gulp.task("start-appium", function (callback) {
     appium_process.stderr.pipe(process.stderr);
 });
 
-gulp.task("protractor:local:android_4.4.2", function () {
-    return gulp.src(["./tests/e2e/**/*_test.js"])
-        .pipe(protractor({
-            configFile: "tests/e2e/local-config.js",
-            args: ["--params.avd=android_4_4_2"]
-        }))
-        // .on('error', function(e) { throw e })
-        .on("end", killEmulator);
-});
-
-gulp.task("protractor:local:android_5.0.1", function () {
-    return gulp.src(["./tests/e2e/**/*_test.js"])
-        .pipe(protractor({
-            configFile: "tests/e2e/local-config.js",
-            args: ["--params.avd=android_5_0_1"]
-        }))
-        // .on('error', function(e) { throw e })
-        .on("end", killEmulator);
-});
-
-gulp.task("protractor:local:android_5.1.1", function () {
-    return gulp.src(["./tests/e2e/**/*_test.js"])
-        .pipe(protractor({
-            configFile: "tests/e2e/local-config.js",
-            args: ["--params.avd=android_5_1_1"]
-        }))
-        // .on('error', function(e) { throw e })
-        .on("end", killEmulator);
-});
-
-gulp.task("protractor:local:android_6.0", function () {
-    return gulp.src(["./tests/e2e/**/*_test.js"])
-        .pipe(protractor({
-            configFile: "tests/e2e/local-config.js",
-            args: ["--params.avd=android_6_0"]
-        }))
-        // .on('error', function(e) { throw e })
-        .on("end", killEmulator);
-});
+gulp.task("protractor:local:android-4.4.2", runTestOn.bind(null, "android-4.4.2"));
+gulp.task("protractor:local:android-5.0.1", runTestOn.bind(null, "android-5.0.1"));
+gulp.task("protractor:local:android-5.1.1", runTestOn.bind(null, "android-5.1.1"));
+gulp.task("protractor:local:android-6.0", runTestOn.bind(null, "android-6.0"));
 
 gulp.task("test:integration:local", ["build-debug", "start-appium"], function (callback) {
     runSequence(
-        "protractor:local:android_4.4.2",
-        "protractor:local:android_5.0.1",
-        "protractor:local:android_5.1.1",
-        "protractor:local:android_6.0",
+        "protractor:local:android-4.4.2",
+        "protractor:local:android-5.0.1",
+        "protractor:local:android-5.1.1",
+        "protractor:local:android-6.0",
         function () {
             cleanup();
             callback();
@@ -111,6 +72,16 @@ gulp.task("git-check", function (done) {
     }
     done();
 });
+
+function runTestOn(device) {
+    return gulp.src(["./tests/e2e/**/*_test.js"])
+        .pipe(protractor({
+            configFile: "tests/e2e/local.config.js",
+            args: ["--params.avd="+device]
+        }))
+        .on("error", function (e) { console.log(gutil.colors.red(e)); })
+        .on("end", killEmulator);
+}
 
 function cleanup() {
     if (appium_process) {
