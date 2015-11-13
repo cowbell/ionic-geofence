@@ -9,6 +9,7 @@ const protractor = require('gulp-protractor').protractor;
 const runSequence = require('run-sequence');
 const path = require("path");
 let appium_process;
+let anyErrors = false;
 
 require("dotenv").load();
 
@@ -19,9 +20,11 @@ gulp.task("set-play-services-location-version", function () {
 });
 
 gulp.task("build-debug", ["set-play-services-location-version"], function (callback) {
-    cp.exec("ionic build android", function (error) {
+    // ionic build doesn't return proper error code
+    cp.exec("cordova build android", function (error) {
         if (error) {
-            return callback(error);
+            console.log("error:", error);
+            throw error;
         }
         callback();
     });
@@ -52,8 +55,7 @@ gulp.task("test:integration:local", ["build-debug", "start-appium"], function (c
         "protractor:local:android-6.0",
         function () {
             cleanup();
-            callback();
-            process.exit(0);
+            process.exit(anyErrors ? 1 : 0);
         }
     );
 });
@@ -63,8 +65,7 @@ gulp.task("test:integration:travis", ["build-debug", "start-appium"], function (
         "protractor:local:android-6.0",
         function () {
             cleanup();
-            callback();
-            process.exit(0);
+            process.exit(anyErrors ? 1 : 0);
         }
     );
 });
@@ -77,10 +78,6 @@ gulp.task("upload-apk-to-sauce", ["build-debug"], function () {
     const apk_path = path.resolve("platforms/android/build/outputs/apk/android-debug.apk");
 
     sh.exec(`curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY -X POST http://saucelabs.com/rest/v1/storage/$SAUCE_USERNAME/ionic-geofence-debug.apk?overwrite=true -H 'Content-Type: application/octet-stream' --data-binary @${apk_path}`);
-});
-
-gulp.task("watch", function () {
-    gulp.watch(paths.sass, ["sass"]);
 });
 
 gulp.task("install", ["git-check"], function () {
@@ -109,7 +106,10 @@ function runTestOn(server, device) {
             configFile: `tests/e2e/${server}.config.js`,
             args: [`--params.avd=${device}`]
         }))
-        .on("error", function (e) { console.log(gutil.colors.red(e)); })
+        .on("error", function (e) {
+            console.log(gutil.colors.red(e));
+            anyErrors = true;
+        })
         .on("end", killEmulator);
 }
 
