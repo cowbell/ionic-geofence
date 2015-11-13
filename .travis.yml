@@ -1,12 +1,16 @@
 language: android
+env:
+  global:
+    - secure: VffBwEKi8v0WrJC2AFu8H5y9wl44ClJEsmMinQS5TSRTY+o0oeZ6erliGaWjmUqyU0DYUhkxHilyn41OeKTHI+wbBvdJx8vRCe/B+R5RFNDBkVClMViE8IjicMSwOyNQ4tW/rczSBB/iNAZ3xjBk+HZaf5xZkEqsmLgswwAWXmk=
+    - secure: PsV548pDm8GL7Fv1uhlg8Oqyl+u6Kt6PwECWxoMiOh8VkJCd3KpAZDB3hIf3v+8JzG8G7co4Cg3Wggcu/q2L5CY3+DSkEnDEpFCfFG9+3NKEe336GGJrGTV7oNUmudrNPBGRUdkLafBvKNKcwOhCoSepFcjFLbdDLgMDbIxvaJU=
 node_js:
   -"4.1"
 android:
   components:
   - platform-tools
   - tools
-  - build-tools-19.0.0
-  - android-19
+  - build-tools-21.1.1
+  - android-21
 sudo: false
 cache:
   directories:
@@ -17,5 +21,5 @@ install:
 - npm link
 script:
 - ionic platform add android
-- ionic build --release android
+-
 

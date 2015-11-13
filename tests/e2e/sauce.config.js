@@ -7,5 +7,5 @@ exports.config = Object.assign(baseConfig, {
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
-    capabilities: caps.android_4_4
+    multiCapabilities: Object.keys(caps).map((key) => caps[key])
 });

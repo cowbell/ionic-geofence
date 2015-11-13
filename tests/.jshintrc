@@ -12,7 +12,8 @@
     "by",
     "browser",
     "wdBrowser",
-    "process"
+    "process",
+    "module"
   ],
   "jasmine": true,
   "browser": false,

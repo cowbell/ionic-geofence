@@ -4,7 +4,25 @@ import net from "net";
 const EC = protractor.ExpectedConditions;
 
 describe("Geofence test", () => {
-    const emuConnection = net.connect("5554", "localhost");
+    let emuConnection;
+    let isSauce = false;
+    let isLocal = true;
+
+    beforeAll((done) => {
+        browser.getProcessedConfig()
+            .then((config) => {
+                isLocal = config.sauceUser === undefined;
+                isSauce = config.sauceUser !== undefined;
+            })
+            .then(() => {
+                if (!isSauce) {
+                    emuConnection = net.connect("5554", "localhost");
+                    emuConnection.on("connect", done);
+                } else {
+                    done();
+                }
+            });
+    });
 
     function addGeofence(notificationText) {
         const addGeofenceButton = element(by.css(".ion-plus"));
@@ -20,19 +38,27 @@ describe("Geofence test", () => {
         saveGeofenceButton.click();
     }
 
-    //telnet geofix works on most of emulators, wdBrowser.setGeoLocation only on android-6
     function geoFix(longitude, latitude) {
-        emuConnection.write(`geo fix ${longitude} ${latitude}\n`);
+        if (isSauce) {
+            wdBrowser.setGeoLocation(longitude, latitude);
+        } else {
+            //telnet geofix works on most of emulators, wdBrowser.setGeoLocation only on android-6
+            emuConnection.write(`geo fix ${longitude} ${latitude}\n`);
+        }
     }
 
-    afterAll(() => emuConnection.destroy());
+    afterAll(() => {
+        if (emuConnection) {
+            emuConnection.destroy();
+        }
+    });
 
     it("should add geofence", (done) => {
         const geofenceList = element.all(by.repeater("geofence in geofences"));
-        const firstListElement = element(by.css("ion-item:first-child"));
+        const firstGeofence = element(by.cssContainingText("ion-item", "Tested geofence region"));
         addGeofence("Tested geofence region");
 
-        browser.wait(EC.presenceOf(firstListElement), 3000);
+        browser.wait(EC.presenceOf(firstGeofence), 3000);
         expect(geofenceList.count()).toBe(1);
         expect(geofenceList.first().getText()).toContain("Tested geofence region");
         done();
@@ -41,12 +67,11 @@ describe("Geofence test", () => {
     it("should remove added geofence", (done) => {
         const removeButton = element(by.css(".ion-trash-b"));
         const geofenceList = element.all(by.repeater("geofence in geofences"));
-        const firstListElement = element(by.css("ion-item:first-child"));
+        const firstGeofence = element(by.cssContainingText("ion-item", "Tested geofence region"));
 
-        browser.wait(EC.presenceOf(firstListElement), 3000);
         expect(geofenceList.count()).toBe(1);
         removeButton.click();
-        browser.wait(EC.stalenessOf(firstListElement), 3000);
+        browser.wait(EC.stalenessOf(firstGeofence), 3000);
         expect(geofenceList.count()).toBe(0);
         done();
     });
@@ -55,13 +80,16 @@ describe("Geofence test", () => {
         const moreOptionsButton = element(by.css(".ion-more"));
         const removeAllButton = element(by.buttonText("Delete all geofences"));
         const geofenceList = element.all(by.repeater("geofence in geofences"));
+        const secondGeofence = element(by.cssContainingText("ion-item", "Second geofence"));
 
         addGeofence("First geofence");
-        addGeofence("Second geofences");
+        addGeofence("Second geofence");
 
+        browser.wait(EC.presenceOf(secondGeofence), 3000);
         expect(geofenceList.count()).toBe(2);
         moreOptionsButton.click();
         removeAllButton.click();
+        browser.wait(EC.stalenessOf(secondGeofence), 3000);
         expect(geofenceList.count()).toBe(0);
         done();
     });
