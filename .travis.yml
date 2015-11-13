@@ -12,7 +12,7 @@ android:
     - android-23
     - extra
     - addon-google_apis-google-23
-    - sys-img-x86_64-addon-google_apis-google-23
+    - sys-img-armeabi-v7a-addon-google_apis-google-23
 sudo: false
 cache:
   directories:
