@@ -24,7 +24,7 @@ install:
   - npm link
 before_script:
   - android list targets
-  - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23"
+  - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23" --tag google/apis/x86_64
 script:
   - ionic platform add android
   - gulp test:integration:travis
