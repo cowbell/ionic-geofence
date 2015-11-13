@@ -27,6 +27,8 @@ install:
 before_script:
   - android list targets
   - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23" --tag google_apis
+  - emulator -avd android-6 -no-audio -no-window &
+  - adb wait-for-device
 script:
   - ionic platform add android
   - ionic build android
