@@ -24,6 +24,7 @@ install:
   - npm install
   - npm link
 before_script:
+  - android list targets
   - echo no | android create avd --force -n android-5.0.1 -t "Google Inc.:Google APIs:21"
   - echo no | android create avd --force -n android-5.1.1 -t "Google Inc.:Google APIs:22"
   - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23"
