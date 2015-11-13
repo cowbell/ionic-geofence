@@ -58,6 +58,20 @@ gulp.task("test:integration:local", ["build-debug", "start-appium"], function (c
     );
 });
 
+gulp.task("test:integration:travis", ["build-debug", "start-appium"], function (callback) {
+    runSequence(
+        // "protractor:local:android-4.4.2",
+        "protractor:local:android-5.0.1",
+        "protractor:local:android-5.1.1",
+        "protractor:local:android-6.0",
+        function () {
+            cleanup();
+            callback();
+            process.exit(0);
+        }
+    );
+});
+
 gulp.task("test:integration:sauce", ["upload-apk-to-sauce"], function () {
     return runTestOn("sauce", "all");
 });

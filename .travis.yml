@@ -7,19 +7,26 @@ node_js:
   -"4.1"
 android:
   components:
-  - platform-tools
-  - tools
-  - build-tools-21.1.1
-  - android-21
+    - platform-tools
+    - tools
+    - build-tools-21.1.1
+    - android-21
+    - extra
+    - sys-img-x86_64-addon-google_apis-google-23
+    - sys-img-x86_64-addon-google_apis-google-22
+    - sys-img-x86_64-addon-google_apis-google-21
 sudo: false
 cache:
   directories:
     - node_modules
     - www/lib
 install:
-- npm install
-- npm link
+  - npm install
+  - npm link
+before_script:
+  - echo no | android create avd --force -n android-5.0.1 -t "Google Inc.:Google APIs:21"
+  - echo no | android create avd --force -n android-5.1.1 -t "Google Inc.:Google APIs:22"
+  - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23"
 script:
-- ionic platform add android
--
-
+  - ionic platform add android
+  - gulp test:integration:travis
