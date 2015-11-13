@@ -25,7 +25,9 @@ module.exports = {
     }),
     "android-5.0.1": Object.assign({}, base, {
         platformName: "android",
-        avd: "android-5.0.1"
+        avd: "android-5.0.1",
+        deviceName: "selendroid",
+        automationName: "selendroid"
     }),
     "android-4.4.2": Object.assign({}, base, {
         platformName: "android",

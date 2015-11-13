@@ -10,15 +10,9 @@ android:
     - platform-tools
     - tools
     - build-tools-21.1.1
-    - android-21
-    - android-22
     - android-23
     - extra
-    - addon-google_apis-google-21
-    - addon-google_apis-google-22
     - addon-google_apis-google-23
-    - sys-img-x86_64-addon-google_apis-google-21
-    - sys-img-x86_64-addon-google_apis-google-22
     - sys-img-x86_64-addon-google_apis-google-23
 sudo: false
 cache:
@@ -30,8 +24,6 @@ install:
   - npm link
 before_script:
   - android list targets
-  - echo no | android create avd --force -n android-5.0.1 -t "Google Inc.:Google APIs:21"
-  - echo no | android create avd --force -n android-5.1.1 -t "Google Inc.:Google APIs:22"
   - echo no | android create avd --force -n android-6 -t "Google Inc.:Google APIs:23"
 script:
   - ionic platform add android
