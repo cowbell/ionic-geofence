@@ -46,10 +46,10 @@ gulp.task("protractor:local:android-6.0", runTestOn.bind(null, "local", "android
 
 gulp.task("test:integration:local", ["build-debug", "start-appium"], function (callback) {
     runSequence(
-        // "protractor:local:android-4.4.2",
+        "protractor:local:android-4.4.2",
         "protractor:local:android-5.0.1",
-        // "protractor:local:android-5.1.1",
-        // "protractor:local:android-6.0",
+        "protractor:local:android-5.1.1",
+        "protractor:local:android-6.0",
         function () {
             cleanup();
             callback();
