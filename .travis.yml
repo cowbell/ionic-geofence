@@ -12,6 +12,9 @@ android:
     - build-tools-21.1.1
     - android-21
     - extra
+    - addon-google_apis-google-23
+    - addon-google_apis-google-22
+    - addon-google_apis-google-21
     - sys-img-x86_64-addon-google_apis-google-23
     - sys-img-x86_64-addon-google_apis-google-22
     - sys-img-x86_64-addon-google_apis-google-21
