@@ -20,28 +20,25 @@ angular.module("ionic-geofence").controller("GeofencesCtrl", function (
         $scope.geofences = geofences;
     }, function (reason) {
         $ionicLoading.hide();
-        $log.log("An Error has occured", reason);
+        $log.error("An Error has occured", reason);
     });
 
     $scope.createNew = function () {
         $log.log("Obtaining current location...");
         $ionicLoading.show({
-            template: "Obtaining current location..."
+            template: "Obtaining current location...",
+            hideOnStateChange: true
         });
         Geolocation.getCurrentPosition()
             .then(function (position) {
-                $log.log("Current location found");
-                $ionicLoading.hide();
+                $log.info("Current position found", position);
 
-                Geofence.createdGeofenceDraft = Geofence.create({
+                $state.go("geofence-new", {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 });
-                $state.go("geofence", {
-                    geofenceId: Geofence.createdGeofenceDraft.id
-                });
             }, function (reason) {
-                $log.log("Cannot obtain current location", reason);
+                $log.error("Cannot obtain current location", reason);
                 $ionicLoading.show({
                     template: "Cannot obtain current location",
                     duration: 1500
@@ -50,7 +47,7 @@ angular.module("ionic-geofence").controller("GeofencesCtrl", function (
     };
 
     $scope.editGeofence = function (geofence) {
-        $state.go("geofence", {
+        $state.go("geofence-edit", {
             geofenceId: geofence.id
         });
     };

@@ -5,16 +5,33 @@ angular.module("ionic-geofence").config(function ($stateProvider, $urlRouterProv
             templateUrl: "views/geofences.html",
             controller: "GeofencesCtrl"
         })
-        .state("geofence", {
-            url: "/geofence/:geofenceId",
+        .state("geofence-new", {
+            url: "/geofence/new/:longitude,:latitude",
             templateUrl: "views/geofence.html",
             controller: "GeofenceCtrl",
+
+            resolve: {
+                geofence: function ($stateParams, Geofence) {
+                    return Geofence.create({
+                        longitude: parseFloat($stateParams.longitude),
+                        latitude: parseFloat($stateParams.latitude)
+                    });
+                }
+            }
+        })
+        .state("geofence-edit", {
+            url: "geofence/:geofenceId",
+            templateUrl: "views/geofence.html",
+            controller: "GeofenceCtrl",
+
             resolve: {
                 geofence: function ($stateParams, Geofence, $q) {
                     var geofence = Geofence.findById($stateParams.geofenceId);
+
                     if (geofence) {
                         return $q.when(geofence);
                     }
+
                     return $q.reject("Cannot find geofence with id: " + $stateParams.geofenceId);
                 }
             }
