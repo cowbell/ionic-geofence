@@ -70,7 +70,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
                     self._geofences = geofences;
                     self._geofencesPromise.resolve(geofences);
                 }, function (reason) {
-                    $log.log("Error fetching geofences", reason);
+                    $log.error("Error fetching geofences", reason);
                     self._geofencesPromise.reject(reason);
                 });
             }
@@ -119,7 +119,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 self._geofences.splice(self._geofences.indexOf(geofence), 1);
                 self.saveToLocalStorage();
             }, function (reason) {
-                $log.log("Error while removing geofence", reason);
+                $log.error("Error while removing geofence", reason);
                 $ionicLoading.show({
                     template: "Error while removing geofence",
                     duration: 1500
@@ -138,7 +138,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 self._geofences.length = 0;
                 self.saveToLocalStorage();
             }, function (reason) {
-                $log.log("Error while removing all geofences", reason);
+                $log.error("Error while removing all geofences", reason);
                 $ionicLoading.show({
                     template: "Error",
                     duration: 1500
