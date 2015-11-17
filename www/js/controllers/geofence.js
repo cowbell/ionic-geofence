@@ -1,4 +1,4 @@
-angular.module('ionic-geofence').controller('GeofenceCtrl', function (
+angular.module("ionic-geofence").controller("GeofenceCtrl", function (
     $scope,
     $ionicLoading,
     $state,
@@ -24,7 +24,7 @@ angular.module('ionic-geofence').controller('GeofenceCtrl', function (
     };
     $scope.paths = {
         circle: {
-            type: 'circle',
+            type: "circle",
             radius: geofence.radius,
             latlngs: $scope.markers.marker,
             clickable: false
@@ -55,14 +55,14 @@ angular.module('ionic-geofence').controller('GeofenceCtrl', function (
             $scope.geofence.notification.data = angular.copy($scope.geofence);
 
             Geofence.addOrUpdate($scope.geofence);
-            $state.go('geofences');
+            $state.go("geofences");
         }
     };
 
     function validate () {
         if (!$scope.geofence.notification.text) {
             $ionicLoading.show({
-                template: 'Please enter some notification text.',
+                template: "Please enter some notification text.",
                 duration: 3000
             });
             return false;
@@ -70,7 +70,7 @@ angular.module('ionic-geofence').controller('GeofenceCtrl', function (
 
         if ($scope.geofence.transitionType === 0) {
             $ionicLoading.show({
-                template: 'You must select when you want notification. When entering or/and exiting region?',
+                template: "You must select when you want notification. When entering or/and exiting region?",
                 duration: 3000
             });
             return false;

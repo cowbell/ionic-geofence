@@ -1,4 +1,4 @@
-angular.module('ionic-geofence').factory('Geofence', function (
+angular.module("ionic-geofence").factory("Geofence", function (
     $rootScope,
     $window,
     $q,
@@ -10,7 +10,7 @@ angular.module('ionic-geofence').factory('Geofence', function (
         _geofencesPromise: null,
         createdGeofenceDraft: null,
         loadFromLocalStorage: function () {
-            var result = localStorage['geofences'];
+            var result = localStorage["geofences"];
             var geofences = [];
             if (result) {
                 try {
@@ -23,7 +23,7 @@ angular.module('ionic-geofence').factory('Geofence', function (
             return $q.when(this._geofences);
         },
         saveToLocalStorage: function () {
-            localStorage['geofences'] = angular.toJson(this._geofences);
+            localStorage["geofences"] = angular.toJson(this._geofences);
         },
         loadFromDevice: function () {
             var self = this;
@@ -79,16 +79,16 @@ angular.module('ionic-geofence').factory('Geofence', function (
         remove: function (geofence) {
             var self = this;
             $ionicLoading.show({
-                template: 'Removing geofence...'
+                template: "Removing geofence..."
             });
             $window.geofence.remove(geofence.id).then(function () {
                 $ionicLoading.hide();
                 self._geofences.splice(self._geofences.indexOf(geofence), 1);
                 self.saveToLocalStorage();
             }, function (reason) {
-                $log.log('Error while removing geofence', reason);
+                $log.log("Error while removing geofence", reason);
                 $ionicLoading.show({
-                    template: 'Error',
+                    template: "Error",
                     duration: 1500
                 });
             });
@@ -96,16 +96,16 @@ angular.module('ionic-geofence').factory('Geofence', function (
         removeAll: function () {
             var self = this;
             $ionicLoading.show({
-                template: 'Removing all geofences...'
+                template: "Removing all geofences..."
             });
             $window.geofence.removeAll().then(function () {
                 $ionicLoading.hide();
                 self._geofences.length = 0;
                 self.saveToLocalStorage();
             }, function (reason) {
-                $log.log('Error while removing all geofences', reason);
+                $log.log("Error while removing all geofences", reason);
                 $ionicLoading.show({
-                    template: 'Error',
+                    template: "Error",
                     duration: 1500
                 });
             });
