@@ -8,7 +8,6 @@ angular.module("ionic-geofence").factory("Geofence", function (
     var geofenceService = {
         _geofences: [],
         _geofencesPromise: null,
-        createdGeofenceDraft: null,
 
         create: function (attributes) {
             var defaultGeofence = {
@@ -83,23 +82,21 @@ angular.module("ionic-geofence").factory("Geofence", function (
             var self = this;
 
             $window.geofence.addOrUpdate(geofence).then(function () {
-                if ((self.createdGeofenceDraft && self.createdGeofenceDraft === geofence) ||
-                !self.findById(geofence.id)) {
+                var searched = self.findById(geofence.id);
+
+                if (!searched) {
                     self._geofences.push(geofence);
-                    self.saveToLocalStorage();
+                } else {
+                    var index = self._geofences.indexOf(searched);
+
+                    self._geofences[index] = geofence;
                 }
 
-                if (self.createdGeofenceDraft) {
-                    self.createdGeofenceDraft = null;
-                }
+                self.saveToLocalStorage();
             });
-
         },
 
         findById: function (id) {
-            if (this.createdGeofenceDraft && this.createdGeofenceDraft.id === id) {
-                return this.createdGeofenceDraft;
-            }
             var geoFences = this._geofences.filter(function (g) {
                 return g.id === id;
             });
@@ -124,7 +121,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
             }, function (reason) {
                 $log.log("Error while removing geofence", reason);
                 $ionicLoading.show({
-                    template: "Error",
+                    template: "Error while removing geofence",
                     duration: 1500
                 });
             });

@@ -29,7 +29,7 @@ angular.module("ionic-geofence").config(function ($stateProvider, $urlRouterProv
                     var geofence = Geofence.findById($stateParams.geofenceId);
 
                     if (geofence) {
-                        return $q.when(geofence);
+                        return $q.when(angular.copy(geofence));
                     }
 
                     return $q.reject("Cannot find geofence with id: " + $stateParams.geofenceId);
