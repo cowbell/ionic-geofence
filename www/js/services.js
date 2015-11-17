@@ -164,7 +164,7 @@ angular.module('ionic-geofence')
                         }, 10000, 1);
                     }, function (error) {
                         deffered.reject(error);
-                    }, {timeout:20000, enableHighAccuracy: true});
+                    }, {timeout:10000, enableHighAccuracy: true});
 
                     return deffered.promise;
                 }
