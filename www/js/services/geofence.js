@@ -9,9 +9,30 @@ angular.module("ionic-geofence").factory("Geofence", function (
         _geofences: [],
         _geofencesPromise: null,
         createdGeofenceDraft: null,
+
+        create: function (attributes) {
+            var defaultGeofence = {
+                id: UUIDjs.create().toString(),
+                latitude: 50,
+                longitude: 50,
+                radius: 1000,
+                transitionType: TransitionType.ENTER,
+                notification: {
+                    id: this.getNextNotificationId(),
+                    title: "Ionic geofence example",
+                    text: "",
+                    icon: "res://ic_menu_mylocation",
+                    openAppOnClick: true
+                }
+            };
+
+            return angular.extend(defaultGeofence, attributes);
+        },
+
         loadFromLocalStorage: function () {
             var result = localStorage["geofences"];
             var geofences = [];
+
             if (result) {
                 try {
                     geofences = angular.fromJson(result);
@@ -20,23 +41,30 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 }
             }
             this._geofences = geofences;
+
             return $q.when(this._geofences);
         },
+
         saveToLocalStorage: function () {
             localStorage["geofences"] = angular.toJson(this._geofences);
         },
+
         loadFromDevice: function () {
             var self = this;
+
             if ($window.geofence && $window.geofence.getWatched) {
                 return $window.geofence.getWatched().then(function (geofencesJson) {
                     self._geofences = angular.fromJson(geofencesJson);
                     return self._geofences;
                 });
             }
+
             return this.loadFromLocalStorage();
         },
+
         getAll: function () {
             var self = this;
+
             if (!self._geofencesPromise) {
                 self._geofencesPromise = $q.defer();
                 self.loadFromDevice().then(function (geofences) {
@@ -47,10 +75,13 @@ angular.module("ionic-geofence").factory("Geofence", function (
                     self._geofencesPromise.reject(reason);
                 });
             }
+
             return self._geofencesPromise.promise;
         },
+
         addOrUpdate: function (geofence) {
             var self = this;
+
             $window.geofence.addOrUpdate(geofence).then(function () {
                 if ((self.createdGeofenceDraft && self.createdGeofenceDraft === geofence) ||
                 !self.findById(geofence.id)) {
@@ -64,6 +95,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
             });
 
         },
+
         findById: function (id) {
             if (this.createdGeofenceDraft && this.createdGeofenceDraft.id === id) {
                 return this.createdGeofenceDraft;
@@ -71,13 +103,17 @@ angular.module("ionic-geofence").factory("Geofence", function (
             var geoFences = this._geofences.filter(function (g) {
                 return g.id === id;
             });
+
             if (geoFences.length > 0) {
                 return geoFences[0];
             }
+
             return undefined;
         },
+
         remove: function (geofence) {
             var self = this;
+
             $ionicLoading.show({
                 template: "Removing geofence..."
             });
@@ -93,8 +129,10 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 });
             });
         },
+
         removeAll: function () {
             var self = this;
+
             $ionicLoading.show({
                 template: "Removing all geofences..."
             });
@@ -110,8 +148,10 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 });
             });
         },
+
         getNextNotificationId: function () {
             var max = 0;
+
             this._geofences.forEach(function (gf) {
                 if (gf.notification && gf.notification.id) {
                     if (gf.notification.id > max) {
@@ -119,6 +159,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
                     }
                 }
             });
+
             return max + 1;
         }
     };

@@ -75,6 +75,7 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
             });
             return false;
         }
+
         return true;
     }
 });

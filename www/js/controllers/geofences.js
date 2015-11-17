@@ -33,20 +33,10 @@ angular.module("ionic-geofence").controller("GeofencesCtrl", function (
                 $log.log("Current location found");
                 $ionicLoading.hide();
 
-                Geofence.createdGeofenceDraft = {
-                    id: UUIDjs.create().toString(),
+                Geofence.createdGeofenceDraft = Geofence.create({
                     latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                    radius: 1000,
-                    transitionType: TransitionType.ENTER,
-                    notification: {
-                        id: Geofence.getNextNotificationId(),
-                        title: "Ionic geofence example",
-                        text: "",
-                        icon: "res://ic_menu_mylocation",
-                        openAppOnClick: true
-                    }
-                };
+                    longitude: position.coords.longitude
+                });
                 $state.go("geofence", {
                     geofenceId: Geofence.createdGeofenceDraft.id
                 });
