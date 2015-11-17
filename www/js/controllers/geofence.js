@@ -1,8 +1,9 @@
 angular.module('ionic-geofence').controller('GeofenceCtrl', function (
     $scope,
     $ionicLoading,
+    $state,
     geofence,
-    geofenceService
+    Geofence
 ) {
     $scope.geofence = geofence;
     $scope.TransitionType = TransitionType;
@@ -53,7 +54,7 @@ angular.module('ionic-geofence').controller('GeofenceCtrl', function (
             $scope.geofence.longitude = $scope.markers.marker.lng;
             $scope.geofence.notification.data = angular.copy($scope.geofence);
 
-            geofenceService.addOrUpdate($scope.geofence);
+            Geofence.addOrUpdate($scope.geofence);
             $state.go('geofences');
         }
     };

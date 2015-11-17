@@ -1,4 +1,4 @@
-angular.module('ionic-geofence').factory('geofenceService', function (
+angular.module('ionic-geofence').factory('Geofence', function (
     $rootScope,
     $window,
     $q,

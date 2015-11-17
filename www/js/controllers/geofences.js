@@ -4,8 +4,8 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
     $timeout,
     $log,
     $state,
-    geolocationService,
-    geofenceService,
+    Geolocation,
+    Geofence,
     $ionicLoading
 ) {
     $ionicLoading.show({
@@ -15,7 +15,7 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
 
     $scope.geofences = [];
 
-    geofenceService.getAll().then(function (geofences) {
+    Geofence.getAll().then(function (geofences) {
         $ionicLoading.hide();
         $scope.geofences = geofences;
     }, function (reason) {
@@ -28,19 +28,19 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
         $ionicLoading.show({
             template: 'Obtaining current location...'
         });
-        geolocationService.getCurrentPosition()
+        Geolocation.getCurrentPosition()
             .then(function (position) {
                 $log.log('Current location found');
                 $ionicLoading.hide();
 
-                geofenceService.createdGeofenceDraft = {
+                Geofence.createdGeofenceDraft = {
                     id: UUIDjs.create().toString(),
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                     radius: 1000,
                     transitionType: TransitionType.ENTER,
                     notification: {
-                        id: geofenceService.getNextNotificationId(),
+                        id: Geofence.getNextNotificationId(),
                         title: 'Ionic geofence example',
                         text: '',
                         icon: 'res://ic_menu_mylocation',
@@ -48,7 +48,7 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
                     }
                 };
                 $state.go('geofence', {
-                    geofenceId: geofenceService.createdGeofenceDraft.id
+                    geofenceId: Geofence.createdGeofenceDraft.id
                 });
             }, function (reason) {
                 $log.log('Cannot obtain current location', reason);
@@ -66,7 +66,7 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
     };
 
     $scope.removeGeofence = function (geofence) {
-        geofenceService.remove(geofence);
+        Geofence.remove(geofence);
     };
 
     $scope.more = function () {
@@ -79,7 +79,7 @@ angular.module('ionic-geofence').controller('GeofencesCtrl', function (
             destructiveText: '<i class="icon ion-trash-b"></i> Delete all geofences',
             cancelText: '<i class="icon ion-android-cancel"></i> Cancel',
             destructiveButtonClicked: function () {
-                geofenceService.removeAll();
+                Geofence.removeAll();
                 return true;
             },
             buttonClicked: function() {
