@@ -22,7 +22,7 @@ exports.config = {
             protractor = require("protractor"),
             wdBridge = require("wd-bridge")(protractor, wd);
         wdBridge.initFromProtractor(exports.config);
-        require("babel/register");
+        require("babel-core/register");
 
         //check if location services enabled if not, enable
         if (sh.exec("adb shell settings get secure location_providers_allowed").output.trim().length === 0) {
