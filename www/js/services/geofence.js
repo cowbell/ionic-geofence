@@ -81,7 +81,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
         addOrUpdate: function (geofence) {
             var self = this;
 
-            $window.geofence.addOrUpdate(geofence).then(function () {
+            return $window.geofence.addOrUpdate(geofence).then(function () {
                 var searched = self.findById(geofence.id);
 
                 if (!searched) {

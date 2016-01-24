@@ -54,8 +54,15 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
             $scope.geofence.longitude = $scope.markers.marker.lng;
             $scope.geofence.notification.data = angular.copy($scope.geofence);
 
-            Geofence.addOrUpdate($scope.geofence);
-            $state.go("geofences");
+            Geofence.addOrUpdate($scope.geofence).then(function () {
+                $state.go("geofences");
+            }, function (error) {
+                $ionicLoading.show({
+                    template: "Failed to add geofence, check if your location provider is enabled",
+                    duration: 3000
+                });
+                console.log("Failed to add geofence", error);
+            });
         }
     };
 
