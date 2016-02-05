@@ -13,7 +13,7 @@
     "babel-core": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
     "bower": "~1.7.2",
-    "cordova": "~5.4.1",
+    "cordova": "~6.0.0",
     "dotenv": "^2.0.0",
     "gulp": "~3.9.0",
     "gulp-protractor": "^2.1.0",
@@ -21,7 +21,7 @@
     "ionic": "~1.7.7",
     "protractor": "^3.0.0",
     "run-sequence": "^1.1.4",
-    "shelljs": "~0.5.1",
+    "shelljs": "~0.6.0",
     "wd": "^0.4.0",
     "wd-bridge": "0.0.2"
   },

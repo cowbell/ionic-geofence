@@ -1,10 +1,8 @@
 {
   "name": "ionic-geofence",
   "private": "true",
-  "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.1.0"
-  },
   "dependencies": {
+    "ionic": "driftyco/ionic-bower#1.2.4",
     "leaflet": "~0.7.3"
   }
 }
