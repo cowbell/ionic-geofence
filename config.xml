@@ -8,7 +8,7 @@
     Tomasz Subik
   </author>
   <content src="index.html" />
-  <access origin="*.openstreetmap.org"/>
+  <access origin="*.openstreetmap.org" />
   <preference name="webviewbounce" value="false" />
   <preference name="UIWebViewBounce" value="false" />
   <preference name="DisallowOverscroll" value="true" />
@@ -40,10 +40,10 @@
   </platform>
   <plugin name="cordova-plugin-geofence" spec="https://github.com/cowbell/cordova-plugin-geofence.git" />
   <plugin name="cordova-plugin-geofence-test" spec="https://github.com/cowbell/cordova-plugin-geofence.git#:/tests" />
-  <plugin name="cordova-plugin-console" spec="^1.0.0" />
-  <plugin name="cordova-plugin-geolocation" spec="^1.0.0" />
   <plugin name="cordova-plugin-geolocation-tests" spec="http://git-wip-us.apache.org/repos/asf/cordova-plugin-geolocation#:/tests" />
   <plugin name="cordova-plugin-whitelist" spec="^1.0.0" />
   <plugin name="cordova-plugin-test-framework" spec="^1.0.0" />
   <plugin name="ionic-plugin-keyboard" spec="^1.0.0" />
+  <plugin name="cordova-plugin-geolocation" spec="~2.1.0" />
+  <plugin name="cordova-plugin-console" spec="~1.0.2" />
 </widget>
