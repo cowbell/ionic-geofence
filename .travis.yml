@@ -17,7 +17,7 @@ cache:
     - node_modules
     - www/lib
 install:
+- nvm install 5
 - npm install
 script:
 - ionic platform add android
--
