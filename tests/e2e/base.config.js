@@ -8,6 +8,5 @@ exports.config = {
             wdBridge = require("wd-bridge")(protractor, wd);
         wdBridge.initFromProtractor(exports.config);
         require("babel-core/register");
-
     }
 };

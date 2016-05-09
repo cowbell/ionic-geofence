@@ -88,6 +88,7 @@ describe("Geofence test", () => {
         browser.wait(EC.presenceOf(secondGeofence), 3000);
         expect(geofenceList.count()).toBe(2);
         moreOptionsButton.click();
+        browser.wait(EC.presenceOf(removeAllButton), 1000);
         removeAllButton.click();
         browser.wait(EC.stalenessOf(secondGeofence), 3000);
         expect(geofenceList.count()).toBe(0);

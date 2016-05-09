@@ -13,7 +13,7 @@ var base = {
 module.exports = {
     device: Object.assign({}, base, {
         platformVersion: "5.1.1",
-        deviceName: "TA8830RX4X",
+        deviceName: "TA8830RX4X"
     }),
     "android-6.0": Object.assign({}, base, {
         platformVersion: "6.0",
@@ -32,4 +32,3 @@ module.exports = {
         avd: "android-4.4.2"
     })
 };
-

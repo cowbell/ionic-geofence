@@ -25,8 +25,12 @@ exports.config = {
         require("babel-core/register");
 
         //check if location services enabled if not, enable
-        if (sh.exec("adb shell settings get secure location_providers_allowed").output.trim().length === 0) {
-            return wdBrowser.toggleLocationServicesOnDevice();
-        }
+        // var output = sh.exec("adb shell settings get secure location_providers_allowed").output;
+
+        //enable high accuracy location
+        sh.exec("adb shell settings put secure location_providers_allowed network,gps");
+        // if (output && output.trim().length === 0) {
+        //     return wdBrowser.toggleLocationServicesOnDevice();
+        // }
     }
 };

@@ -18,10 +18,10 @@
     "gulp": "~3.9.0",
     "gulp-protractor": "^2.1.0",
     "gulp-util": "~3.0.5",
-    "ionic": "~1.7.7",
+    "ionic": "^1.7.14",
     "protractor": "^3.0.0",
     "run-sequence": "^1.1.4",
-    "shelljs": "~0.6.0",
+    "shelljs": "~0.7.0",
     "wd": "^0.4.0",
     "wd-bridge": "0.0.2"
   },
