@@ -25,7 +25,9 @@
     "wd": "^0.4.0",
     "wd-bridge": "0.0.2"
   },
-  "cordovaPlugins": [],
+  "cordovaPlugins": [
+    "cordova-plugin-splashscreen"
+  ],
   "cordovaPlatforms": [
     "android"
   ]

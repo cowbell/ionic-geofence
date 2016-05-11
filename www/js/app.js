@@ -25,6 +25,9 @@ angular.module("ionic-geofence", ["ionic", "leaflet-directive"]).run(function (
                 $window.geofence = GeofencePluginMock;
                 $window.TransitionType = GeofencePluginMock.TransitionType;
             }
+            if (navigator.splashscreen) {
+                navigator.splashscreen.hide();
+            }
 
             $window.geofence.onTransitionReceived = function (geofences) {
                 $log.log(geofences);
