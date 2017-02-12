@@ -3,9 +3,9 @@ angular.module("ionic-geofence").factory("Geolocation", function ($q, $interval)
 
     return {
         getCurrentPosition: function () {
-            if (!currentPositionCache) {
-                var deffered = $q.defer();
+            var deffered = $q.defer();
 
+            if (!currentPositionCache) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     deffered.resolve(currentPositionCache = position);
                     $interval(function () {
@@ -13,7 +13,7 @@ angular.module("ionic-geofence").factory("Geolocation", function ($q, $interval)
                     }, 10000, 1);
                 }, function (error) {
                     deffered.reject(error);
-                }, {timeout:10000, enableHighAccuracy: true});
+                }, { timeout: 10000, enableHighAccuracy: true });
 
                 return deffered.promise;
             }

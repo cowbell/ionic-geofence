@@ -5,17 +5,15 @@ const EC = protractor.ExpectedConditions;
 
 describe("Geofence test", () => {
     let emuConnection;
-    let isSauce = false;
     let isLocal = true;
 
     beforeAll((done) => {
         browser.getProcessedConfig()
             .then((config) => {
                 isLocal = config.sauceUser === undefined;
-                isSauce = config.sauceUser !== undefined;
             })
             .then(() => {
-                if (!isSauce) {
+                if (isLocal) {
                     emuConnection = net.connect("5554", "localhost");
                     emuConnection.on("connect", done);
                 } else {
@@ -32,17 +30,17 @@ describe("Geofence test", () => {
         geoFix(50.28, 18.67);
         addGeofenceButton.click();
 
-        //workaround protractor doesn't wait for html geolocation API to resolve
+        // workaround protractor doesn't wait for html geolocation API to resolve
         browser.wait(EC.presenceOf(notificationTextInput), 20000);
         notificationTextInput.sendKeys(notificationText);
         saveGeofenceButton.click();
     }
 
     function geoFix(longitude, latitude) {
-        if (isSauce) {
+        if (!isLocal) {
             wdBrowser.setGeoLocation(longitude, latitude);
         } else {
-            //telnet geofix works on most of emulators, wdBrowser.setGeoLocation only on android-6
+            // telnet geofix works on most of emulators, wdBrowser.setGeoLocation only on android-6
             emuConnection.write(`geo fix ${longitude} ${latitude}\n`);
         }
     }

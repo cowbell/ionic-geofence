@@ -1,10 +1,12 @@
-var caps = require("./caps/local");
-var avd = caps["android-6.0"];
-var sh = require("shelljs");
+/* eslint-disable global-require */
+const caps = require("./caps/local");
+const sh = require("shelljs");
+
+let avd = caps["android-6.0"];
 
 process.argv.forEach(function (val) {
     if (val.indexOf("--params.avd") > -1) {
-        var avdName = val.replace("--params.avd=", "");
+        const avdName = val.replace("--params.avd=", "");
 
         avd = caps[avdName];
     }
@@ -17,20 +19,21 @@ exports.config = {
 
     capabilities: avd,
 
-    onPrepare: function () {
-        var wd = require("wd"),
-            protractor = require("protractor"),
-            wdBridge = require("wd-bridge")(protractor, wd);
+    onPrepare() {
+        const wd = require("wd");
+        const protractor = require("protractor");
+        const wdBridge = require("wd-bridge")(protractor, wd);
+
         wdBridge.initFromProtractor(exports.config);
         require("babel-core/register");
 
-        //check if location services enabled if not, enable
+        // check if location services enabled if not, enable
         // var output = sh.exec("adb shell settings get secure location_providers_allowed").output;
 
-        //enable high accuracy location
+        // enable high accuracy location
         sh.exec("adb shell settings put secure location_providers_allowed network,gps");
         // if (output && output.trim().length === 0) {
         //     return wdBrowser.toggleLocationServicesOnDevice();
         // }
-    }
+    },
 };

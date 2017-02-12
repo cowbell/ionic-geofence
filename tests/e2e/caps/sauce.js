@@ -8,7 +8,7 @@ module.exports = {
         platformVersion: "4.4",
         platformName: "Android",
         autoWebview: true,
-        app: "sauce-storage:ionic-geofence-debug.apk"
+        app: "sauce-storage:ionic-geofence-debug.apk",
     },
     "galaxy-s4": {
         name: "Ionice Geofence - Samsung Galaxy S4 Emulator",
@@ -19,6 +19,6 @@ module.exports = {
         platformVersion: "4.4",
         platformName: "Android",
         autoWebview: true,
-        app: "sauce-storage:ionic-geofence-debug.apk"
-    }
+        app: "sauce-storage:ionic-geofence-debug.apk",
+    },
 };

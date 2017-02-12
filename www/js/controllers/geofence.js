@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign, no-bitwise */
+
 angular.module("ionic-geofence").controller("GeofenceCtrl", function (
     $scope,
     $ionicLoading,
@@ -6,7 +8,7 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
     Geofence
 ) {
     $scope.geofence = geofence;
-    $scope.TransitionType = TransitionType;
+    $scope.TransitionType = window.TransitionType;
 
     $scope.center = {
         lat: geofence.latitude,
@@ -36,20 +38,20 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
     };
 
     $scope.isWhenGettingCloser = function () {
-        return $scope.geofence.transitionType === TransitionType.ENTER;
+        return $scope.geofence.transitionType === window.TransitionType.ENTER;
     };
 
     $scope.toggleWhenIgetCloser = function () {
-        $scope.geofence.transitionType ^= TransitionType.ENTER;
+        $scope.geofence.transitionType ^= window.TransitionType.ENTER;
     };
 
     $scope.toggleWhenIamLeaving = function () {
-        $scope.geofence.transitionType ^= TransitionType.EXIT;
+        $scope.geofence.transitionType ^= window.TransitionType.EXIT;
     };
 
     $scope.save = function () {
         if (validate()) {
-            $scope.geofence.radius = parseInt($scope.paths.circle.radius);
+            $scope.geofence.radius = parseInt($scope.paths.circle.radius, 10);
             $scope.geofence.latitude = $scope.markers.marker.lat;
             $scope.geofence.longitude = $scope.markers.marker.lng;
             $scope.geofence.notification.data = angular.copy($scope.geofence);
@@ -66,7 +68,7 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
         }
     };
 
-    function validate () {
+    function validate() {
         if (!$scope.geofence.notification.text) {
             $ionicLoading.show({
                 template: "Please enter some notification text.",

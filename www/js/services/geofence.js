@@ -15,7 +15,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
                 latitude: 50,
                 longitude: 50,
                 radius: 1000,
-                transitionType: TransitionType.ENTER,
+                transitionType: window.TransitionType.ENTER,
                 notification: {
                     id: this.getNextNotificationId(),
                     title: "Ionic geofence example",
@@ -29,14 +29,14 @@ angular.module("ionic-geofence").factory("Geofence", function (
         },
 
         loadFromLocalStorage: function () {
-            var result = localStorage["geofences"];
+            var result = localStorage.geofences;
             var geofences = [];
 
             if (result) {
                 try {
                     geofences = angular.fromJson(result);
-                } catch (ex) {
-
+                } catch (err) {
+                    console.error(err);
                 }
             }
             this._geofences = geofences;
@@ -45,7 +45,7 @@ angular.module("ionic-geofence").factory("Geofence", function (
         },
 
         saveToLocalStorage: function () {
-            localStorage["geofences"] = angular.toJson(this._geofences);
+            localStorage.geofences = angular.toJson(this._geofences);
         },
 
         loadFromDevice: function () {
@@ -83,11 +83,12 @@ angular.module("ionic-geofence").factory("Geofence", function (
 
             return $window.geofence.addOrUpdate(geofence).then(function () {
                 var searched = self.findById(geofence.id);
+                var index;
 
                 if (!searched) {
                     self._geofences.push(geofence);
                 } else {
-                    var index = self._geofences.indexOf(searched);
+                    index = self._geofences.indexOf(searched);
 
                     self._geofences[index] = geofence;
                 }

@@ -1,0 +1,8 @@
+**/*{.,-}min.js
+gulpfile.js
+hooks
+node_modules
+platforms
+plugins
+www/js/vendor
+www/lib

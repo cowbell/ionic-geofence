@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 angular.module("ionic-geofence").controller("GeofencesCtrl", function (
     $scope,
     $ionicActionSheet,
@@ -69,7 +71,7 @@ angular.module("ionic-geofence").controller("GeofencesCtrl", function (
                 Geofence.removeAll();
                 return true;
             },
-            buttonClicked: function() {
+            buttonClicked: function () {
                 window.location.href = "cdvtests/index.html";
             }
         });

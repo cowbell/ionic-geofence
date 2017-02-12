@@ -1,21 +1,20 @@
-"use strict";
-
 const gulp = require("gulp");
 const gutil = require("gulp-util");
 const bower = require("bower");
 const sh = require("shelljs");
 const cp = require("child_process");
-const protractor = require('gulp-protractor').protractor;
-const runSequence = require('run-sequence');
+const protractor = require("gulp-protractor").protractor;
+const runSequence = require("run-sequence");
 const path = require("path");
-let appium_process;
+
+let appiumProcess;
 
 require("dotenv").load();
 
 gulp.task("default", ["test:integration:local"]);
 
 gulp.task("set-play-services-location-version", function () {
-    sh.exec("sed -i 's/play-services-location:+/play-services-location:6.5.87/g' platforms/android/project.properties");
+    sh.exec("sed -i 's/play-services-location:+/play-services-location:9.8.0/g' platforms/android/project.properties");
 });
 
 gulp.task("build-debug", ["set-play-services-location-version"], function (callback) {
@@ -23,20 +22,20 @@ gulp.task("build-debug", ["set-play-services-location-version"], function (callb
         if (error) {
             return callback(error);
         }
-        callback();
+        return callback();
     });
 });
 
 gulp.task("start-appium", function (callback) {
-    appium_process = cp.spawn("appium", ["--chromedriver-executable", "/home/tomasz/.bin/chromedriver"]);
+    appiumProcess = cp.spawn("appium", ["--chromedriver-executable", "/home/tomasz/.bin/chromedriver"]);
 
-    appium_process.stdout.on("data", function (data) {
+    appiumProcess.stdout.on("data", function (data) {
         if (data.toString().indexOf("Appium REST http interface listener started") > -1) {
             callback();
         }
     });
 
-    appium_process.stderr.pipe(process.stderr);
+    appiumProcess.stderr.pipe(process.stderr);
 });
 
 gulp.task("protractor:local:android-4.4.2", runTestOn.bind(null, "local", "android-4.4.2"));
@@ -63,9 +62,9 @@ gulp.task("test:integration:sauce", ["upload-apk-to-sauce"], function () {
 });
 
 gulp.task("upload-apk-to-sauce", ["build-debug"], function () {
-    const apk_path = path.resolve("platforms/android/build/outputs/apk/android-debug.apk");
+    const apkPath = path.resolve("platforms/android/build/outputs/apk/android-debug.apk");
 
-    sh.exec(`curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY -X POST http://saucelabs.com/rest/v1/storage/$SAUCE_USERNAME/ionic-geofence-debug.apk?overwrite=true -H 'Content-Type: application/octet-stream' --data-binary @${apk_path}`);
+    sh.exec(`curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY -X POST http://saucelabs.com/rest/v1/storage/$SAUCE_USERNAME/ionic-geofence-debug.apk?overwrite=true -H 'Content-Type: application/octet-stream' --data-binary @${apkPath}`);
 });
 
 gulp.task("watch", function () {
@@ -96,15 +95,15 @@ function runTestOn(server, device) {
     return gulp.src(["./tests/e2e/**/*_test.js"])
         .pipe(protractor({
             configFile: `tests/e2e/${server}.config.js`,
-            args: [`--params.avd=${device}`]
+            args: [`--params.avd=${device}`],
         }))
         .on("error", function (e) { console.log(gutil.colors.red(e)); })
         .on("end", killEmulator);
 }
 
 function cleanup() {
-    if (appium_process) {
-        appium_process.kill("SIGINT");
+    if (appiumProcess) {
+        appiumProcess.kill("SIGINT");
     }
     killEmulator();
 }
