@@ -31,6 +31,13 @@ angular.module("ionic-geofence").controller("GeofenceCtrl", function (
         }
     };
 
+    $scope.tiles = {
+        url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        options: {
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }
+    }
+
     $scope.isTransitionOfType = function (transitionType) {
         return ($scope.geofence.transitionType & transitionType);
     };
